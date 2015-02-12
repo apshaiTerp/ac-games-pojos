@@ -1,3 +1,13 @@
+# Maven project files
+.classpath
+.project
+.settings
+
+# End state and helper files
+target
+.fbprefs
+*.sh
+.DS_Store
 *.class
 
 # Mobile Tools for Java (J2ME)
