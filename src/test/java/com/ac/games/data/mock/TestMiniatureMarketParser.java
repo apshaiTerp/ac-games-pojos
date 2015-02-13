@@ -1,11 +1,12 @@
 package com.ac.games.data.mock;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import com.ac.games.data.MiniatureMarketPriceData;
 import com.ac.games.data.parser.MiniatureMarketParser;
-
-import junit.framework.TestCase;
+import com.ac.games.exception.GameNotFoundException;
 
 /**
  * @author ac010168
@@ -123,6 +124,30 @@ public class TestMiniatureMarketParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testNotFoundParser() {
+    System.out.println ("Launching Test testNotFoundParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_NOT_FOUND);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing A Non-Existant Game...");
+    System.out.println ("------------------------------------------------------");
+    
+    try {
+      MiniatureMarketParser.parseMMHTML(htmlContent);
+      fail("This game should not have been found, this should be an error!");
+    } catch (GameNotFoundException gnfe) { 
+      assertNotNull("This is the only correct outcome for this test", gnfe.getMessage());
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw other errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);

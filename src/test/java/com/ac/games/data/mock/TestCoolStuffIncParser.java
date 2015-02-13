@@ -1,11 +1,12 @@
 package com.ac.games.data.mock;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import com.ac.games.data.CoolStuffIncPriceData;
 import com.ac.games.data.parser.CoolStuffIncParser;
-
-import junit.framework.TestCase;
+import com.ac.games.exception.GameNotFoundException;
 
 /**
  * @author ac010168
@@ -14,13 +15,15 @@ import junit.framework.TestCase;
 public class TestCoolStuffIncParser extends TestCase {
 
   //http://www.coolstuffinc.com/p/203495
-  public final static long ABYSS_GAME_ID = 203495L;
+  public final static long ABYSS_GAME_ID       = 203495L;
   //http://www.coolstuffinc.com/p/136975
   public final static long COSMIC_ENCOUNTER_ID = 136975L;
   //http://www.coolstuffinc.com/p/136978
   public final static long COSMIC_INCURSION_ID = 136978L;
   //http://www.coolstuffinc.com/p/207653
   public final static long DC_DICE_MASTERS_ID  = 207653L;
+  //http://www.coolstuffinc.com/p/999999
+  public final static long NOT_FOUND_GAME_ID   = 999999L;
   
   @Test
   public void testAbyssParser() {
@@ -109,6 +112,30 @@ public class TestCoolStuffIncParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testNotFoundParser() {
+    System.out.println ("Launching Test testNotFoundParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_NOT_FOUND);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing A Non-Existant Game...");
+    System.out.println ("------------------------------------------------------");
+    
+    try {
+      CoolStuffIncParser.parseCSIHTML(htmlContent, NOT_FOUND_GAME_ID);
+      fail("This game should not have been found, this should be an error!");
+    } catch (GameNotFoundException gnfe) { 
+      assertNotNull("This is the only correct outcome for this test", gnfe.getMessage());
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw other errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);
