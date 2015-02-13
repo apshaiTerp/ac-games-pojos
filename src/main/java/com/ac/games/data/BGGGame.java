@@ -3,9 +3,9 @@ package com.ac.games.data;
 import java.util.List;
 
 /**
- * @author ac010168
- *
  * This is a POJO representing the basic information read from the BoardGameGeek XML API.
+ * 
+ * @author ac010168
  */
 public class BGGGame {
   

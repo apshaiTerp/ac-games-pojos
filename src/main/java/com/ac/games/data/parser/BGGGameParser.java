@@ -20,11 +20,11 @@ import com.ac.games.data.GameType;
 import com.ac.games.exception.GameNotFoundException;
 
 /**
- * @author ac010168
- *
  * This class should take the XML body output from the BGG API for a single game
  * (examples are http://www.boardgamegeek.com/xmlapi/boardgame/<id>?stats=1) and
  * convert it into a {@link BGGGame} object.
+ * 
+ * @author ac010168
  */
 public class BGGGameParser {
   
