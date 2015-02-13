@@ -5,6 +5,10 @@ import java.util.Date;
 
 import com.ac.games.data.*;
 
+/**
+ * 
+ * @author ac010168
+ */
 public class MiniatureMarketParser {
   
   public static boolean debugMode = false;
