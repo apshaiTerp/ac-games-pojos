@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import com.ac.games.data.BGGGame;
 import com.ac.games.data.parser.BGGGameParser;
+import com.ac.games.exception.GameNotFoundException;
 
 import junit.framework.TestCase;
 
@@ -18,6 +19,7 @@ public class TestBGGParser extends TestCase {
   public final static long COSMIC_INCURSION_GAME_ID    = 61001L;
   public final static long MAGIC_THE_GATHERING_GAME_ID = 463L;
   public final static long DC_DICE_MASTERS_GAME_ID     = 138649L;
+  public final static long NOT_FOUND_GAME_ID           = 999999L;
 
   @Test
   public void testAbyssParser() {
@@ -129,6 +131,30 @@ public class TestBGGParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testNotFoundParser() {
+    System.out.println ("Launching Test testNotFoundParser()!");
+
+    String xmlContent = MockGameData.generateContentString(MockGameData.BGG_NOT_FOUND);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (xmlContent);
+    System.out.println ("Processing A Non-Existant Game...");
+    System.out.println ("------------------------------------------------------");
+    
+    try {
+      BGGGameParser.parseBGGXML(xmlContent);
+      fail("This game should not have been found, this should be an error!");
+    } catch (GameNotFoundException gnfe) { 
+      assertNotNull("This is the only correct outcome for this test", gnfe.getMessage());
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw other errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);

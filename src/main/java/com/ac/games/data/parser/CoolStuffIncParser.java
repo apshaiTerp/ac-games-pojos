@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.ac.games.data.CoolStuffIncPriceData;
 import com.ac.games.data.GameAvailability;
+import com.ac.games.exception.GameNotFoundException;
 
 /**
  * @author ac010168
@@ -60,15 +61,23 @@ public class CoolStuffIncParser {
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
     
+    //Check for the "Product not found." text that let's us know we didn't find what we
+    //were looking for
+    int notFoundTag = htmlContent.indexOf("Product not found.");
+    
     CoolStuffIncPriceData data = new CoolStuffIncPriceData();
     data.setCsiID(csiID);
     
     int titleMarkerPos = htmlContent.indexOf(TITLE_MARKER);
+    String title = null;
     if (titleMarkerPos != -1) {
-      String title = htmlContent.substring(titleMarkerPos + TITLE_MARKER.length(), 
+      title = htmlContent.substring(titleMarkerPos + TITLE_MARKER.length(), 
           htmlContent.indexOf("\">", titleMarkerPos + TITLE_MARKER.length()));
       data.setTitle(title);
     } else throw new Throwable ("Could not find the Title tag correctly.");
+    
+    if ((notFoundTag != -1) && (title.startsWith("CoolStuffInc.com")))
+      throw new GameNotFoundException("This game does have an entry at CoolStuffInc.com.");
     
     int skuMarkerPos = htmlContent.indexOf(SKU_MARKER);
     if (skuMarkerPos != -1) {

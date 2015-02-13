@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.ac.games.data.*;
+import com.ac.games.exception.GameNotFoundException;
 
 /**
  * 
@@ -58,6 +59,10 @@ public class MiniatureMarketParser {
       startDate = new Date();
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
+    
+    int notFound404Marker = htmlContent.indexOf("<title>404 Not Found");
+    if (notFound404Marker != -1)
+      throw new GameNotFoundException("This game does have an entry at MiniatureMarket.com.");
     
     MiniatureMarketPriceData data = new MiniatureMarketPriceData();
     
