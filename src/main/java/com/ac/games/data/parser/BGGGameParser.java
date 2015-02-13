@@ -219,6 +219,6 @@ public class BGGGameParser {
     String jsonString = "";
     
     //TODO
-    return null;
+    return jsonString;
   }
 }
