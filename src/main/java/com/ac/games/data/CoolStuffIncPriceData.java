@@ -1,6 +1,7 @@
 package com.ac.games.data;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 /**
  * @author ac010168
@@ -29,7 +30,15 @@ public class CoolStuffIncPriceData {
   //TODO - Probably need to figure out the category so I can weed out the HORDES of CCGs
   //and other single items CSI sells
   
+  //**********  These are fields to help with the data review  **********
+  /** Flag to help us know the review state of this object */
+  private ReviewState reviewState;
+  /** Date this record was added to the system */
+  private Date addDate;
+  /** Date this record was reviewed */
+  private Date reviewDate;
   
+  /** Helper to process price values */
   public final static DecimalFormat moneyFormat = new DecimalFormat("$###,###.##");
   
   public CoolStuffIncPriceData() {
@@ -41,6 +50,9 @@ public class CoolStuffIncPriceData {
     releaseDate  = null;
     msrpValue    = -1.0;
     curPrice     = -1.0;
+    reviewState  = null;
+    addDate      = null;
+    reviewDate   = null;
   }
   
   /**
@@ -62,6 +74,19 @@ public class CoolStuffIncPriceData {
     System.out.println ("Expected Release:    " + ((getReleaseDate() == null) ? "[-]" : releaseDate));
     System.out.println ("MSRP:                " + ((getMsrpValue() == -1L) ? "[-]" : moneyFormat.format(getMsrpValue())));
     System.out.println ("Current Price:       " + ((getCurPrice() == -1L) ? "[-]" : moneyFormat.format(getCurPrice())));
+
+    if (getReviewState() == null) {
+      System.out.println ("Review State:        [-]");
+    } else {
+      switch (reviewState) {
+        case PENDING  : System.out.println ("Review State:        Pending");  break;
+        case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
+      }
+    }
+    if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 
+    else                      System.out.println ("Add Date:            [-]"); 
+    if (getReviewDate() != null) System.out.println ("Review Date:         " + reviewDate); 
+    else                         System.out.println ("Review Date:         [-]"); 
   }
 
   /**
@@ -177,5 +202,47 @@ public class CoolStuffIncPriceData {
    */
   public void setReleaseDate(String releaseDate) {
     this.releaseDate = releaseDate;
+  }
+
+  /**
+   * @return the reviewState
+   */
+  public ReviewState getReviewState() {
+    return reviewState;
+  }
+
+  /**
+   * @param reviewState the reviewState to set
+   */
+  public void setReviewState(ReviewState reviewState) {
+    this.reviewState = reviewState;
+  }
+
+  /**
+   * @return the addDate
+   */
+  public Date getAddDate() {
+    return addDate;
+  }
+
+  /**
+   * @param addDate the addDate to set
+   */
+  public void setAddDate(Date addDate) {
+    this.addDate = addDate;
+  }
+
+  /**
+   * @return the reviewDate
+   */
+  public Date getReviewDate() {
+    return reviewDate;
+  }
+
+  /**
+   * @param reviewDate the reviewDate to set
+   */
+  public void setReviewDate(Date reviewDate) {
+    this.reviewDate = reviewDate;
   }
 }

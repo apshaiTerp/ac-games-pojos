@@ -35,6 +35,7 @@ public class GameAvailabilityConverter {
       default                 : return DEFAULT_FLAG;
     }
   }
+  
   /**
    * Helper method to convert from static flag value to enum.
    * @param flag

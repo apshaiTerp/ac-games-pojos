@@ -1,5 +1,6 @@
 package com.ac.games.data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +78,14 @@ public class BGGGame {
   /** Helps identify which type of game this is. */
   private GameType gameType;
 
+  //**********  These are fields to help with the data review  **********
+  /** Flag to help us know the review state of this object */
+  private ReviewState reviewState;
+  /** Date this record was added to the system */
+  private Date addDate;
+  /** Date this record was reviewed */
+  private Date reviewDate;
+  
   /**
    * Some games can have a ranking, but haven't been ranked yet (not yet released titles).
    * This is to help us identify that category.
@@ -110,6 +119,10 @@ public class BGGGame {
     expansionIDs      = null;
     parentGameID      = -1;
     gameType          = null;
+    
+    reviewState       = null;
+    addDate           = null;
+    reviewDate        = null;
   }
   
   /**
@@ -179,6 +192,19 @@ public class BGGGame {
       System.out.println ("Parent Game:         " + getParentGameID());
       System.out.println ("Expansions:          N/A");
     }
+    
+    if (getReviewState() == null) {
+      System.out.println ("Review State:        [-]");
+    } else {
+      switch (reviewState) {
+        case PENDING  : System.out.println ("Review State:        Pending");  break;
+        case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
+      }
+    }
+    if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 
+    else                      System.out.println ("Add Date:            [-]"); 
+    if (getReviewDate() != null) System.out.println ("Review Date:         " + reviewDate); 
+    else                         System.out.println ("Review Date:         [-]"); 
   }
   
   /**
@@ -468,5 +494,45 @@ public class BGGGame {
     this.gameType = gameType;
   }
 
-  
+  /**
+   * @return the reviewState
+   */
+  public ReviewState getReviewState() {
+    return reviewState;
+  }
+
+  /**
+   * @param reviewState the reviewState to set
+   */
+  public void setReviewState(ReviewState reviewState) {
+    this.reviewState = reviewState;
+  }
+
+  /**
+   * @return the addDate
+   */
+  public Date getAddDate() {
+    return addDate;
+  }
+
+  /**
+   * @param addDate the addDate to set
+   */
+  public void setAddDate(Date addDate) {
+    this.addDate = addDate;
+  }
+
+  /**
+   * @return the reviewDate
+   */
+  public Date getReviewDate() {
+    return reviewDate;
+  }
+
+  /**
+   * @param reviewDate the reviewDate to set
+   */
+  public void setReviewDate(Date reviewDate) {
+    this.reviewDate = reviewDate;
+  }
 }
