@@ -84,7 +84,10 @@ public class CoolStuffIncParser {
       String sku = htmlContent.substring(skuMarkerPos + SKU_MARKER.length(), 
           htmlContent.indexOf(", ", skuMarkerPos + SKU_MARKER.length()));
       data.setSku(sku);
-    } else throw new Throwable ("Could not find the SKU item correctly.");
+    } else {
+      data.setSku(null);
+      //throw new Throwable ("Could not find the SKU item correctly.");
+    }
     
     int imageMarkerPos = htmlContent.indexOf(IMAGE_MARKER);
     if (imageMarkerPos != -1) {

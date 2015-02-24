@@ -24,30 +24,46 @@ public class MockGameData {
   public static final int BGG_DC_DICE_MASTERS     = 4;
   //This game tests the return format of a game that doesn't exist
   public static final int BGG_NOT_FOUND           = 5;
+  //This game boasts some incomplete data in the file
+  public static final int BGG_53                  = 6;
+  //This game boasts some incomplete data in the file
+  public static final int BGG_1369                = 7;
+  //This game boasts some incomplete data in the file
+  public static final int BGG_1818                = 8;
+  //This game tests a multiple list with all 20 rows
+  public static final int BGG_12001_12020         = 9;
+  //This game tests a multiple list with some rows missing
+  public static final int BGG_BATCH_ALT           = 10;
   
   //This game tests the In Stock lookup
-  public static final int CSI_ABYSS               = 10;
+  public static final int CSI_ABYSS               = 100;
   //This game tests the PreOrder lookup
-  public static final int CSI_COSMIC_ENCOUNTER    = 11;
+  public static final int CSI_COSMIC_ENCOUNTER    = 101;
   //This game tests the Out of Stock lookup
-  public static final int CSI_COSMIC_INCURSION    = 12;
+  public static final int CSI_COSMIC_INCURSION    = 102;
   //This game tests the Out of Stock - Not yet accepting PreOrders lookup
-  public static final int CSI_DC_DICE_MASTERS     = 13;
+  public static final int CSI_DC_DICE_MASTERS     = 103;
   //This game tests the return format of a game that doesn't exist
-  public static final int CSI_NOT_FOUND           = 14;
+  public static final int CSI_NOT_FOUND           = 104;
+  //This game is an early game that has incomplete information
+  public static final int CSI_75069               = 105;
+  //This game is an early game that has different information for availability
+  public static final int CSI_76097               = 106;
   
   //This game tests the In Stock lookup
-  public static final int MM_ABYSS                = 20;
+  public static final int MM_ABYSS                = 200;
   //This game tests the Out of Stock lookup
-  public static final int MM_COSMIC_ENCOUNTER     = 21;
+  public static final int MM_COSMIC_ENCOUNTER     = 201;
   //This game also happens to be Out of Stock lookup
-  public static final int MM_COSMIC_INCURSION     = 22;
+  public static final int MM_COSMIC_INCURSION     = 202;
   //This game is in a Pre-Order state and Out of Stock
-  public static final int MM_DC_DICE_MASTERS      = 23;
+  public static final int MM_DC_DICE_MASTERS      = 203;
   //This game is in a Pre-Order state and Orderable
-  public static final int MM_XWING_IG2000         = 24;
+  public static final int MM_XWING_IG2000         = 204;
   //This game tests the return format of a game that doesn't exist
-  public static final int MM_NOT_FOUND            = 25;
+  public static final int MM_NOT_FOUND            = 205;
+  //This game tests incomplete data from MM
+  public static final int MM_5137                 = 206;
   
   private final static MockGameData gameData = new MockGameData();
   
@@ -68,17 +84,25 @@ public class MockGameData {
         case BGG_ABYSS               : return generateBggAbyss();
         case BGG_DC_DICE_MASTERS     : return generateBggDCDiceMasters();
         case BGG_NOT_FOUND           : return generateBggNotFound();
+        case BGG_53                  : return generateBgg53();
+        case BGG_1369                : return generateBgg1369();
+        case BGG_1818                : return generateBgg1818();
+        case BGG_12001_12020         : return generateBgg12001_12020();
+        case BGG_BATCH_ALT           : return generateBggBatchAlt();
         case CSI_ABYSS               : return generateCsiAbyss();
         case CSI_COSMIC_ENCOUNTER    : return generateCsiCosmicEncounter();
         case CSI_COSMIC_INCURSION    : return generateCsiCosmicIncursion();
         case CSI_DC_DICE_MASTERS     : return generateCsiDCDiceMasters();
         case CSI_NOT_FOUND           : return generateCsiNotFound();
+        case CSI_75069               : return generateCsi75069();
+        case CSI_76097               : return generateCsi76097();
         case MM_ABYSS                : return generateMMAbyss();
         case MM_COSMIC_ENCOUNTER     : return generateMMCosmicEncounter();
         case MM_COSMIC_INCURSION     : return generateMMCosmicIncursion();
         case MM_DC_DICE_MASTERS      : return generateMMDCDiceMasters();
         case MM_XWING_IG2000         : return generateMMXWingIG2000();
         case MM_NOT_FOUND            : return generateMMNotFound();
+        case MM_5137                 : return generateMM5137();
         default : return "";
       }
     } catch (IOException ioe) {
@@ -111,6 +135,26 @@ public class MockGameData {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_notfound.xml"));
   }
   
+  private static String generateBgg53() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_53.xml"));
+  }
+  
+  private static String generateBgg1369() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_1369.xml"));
+  }
+  
+  private static String generateBgg1818() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_1818.xml"));
+  }
+  
+  private static String generateBgg12001_12020() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_12001-12020.xml"));
+  }
+
+  private static String generateBggBatchAlt() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_batch_alt.xml"));
+  }
+  
   private static String generateCsiAbyss() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_abyss.html"));
   }
@@ -129,6 +173,14 @@ public class MockGameData {
   
   private static String generateCsiNotFound() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_notfound.html"));
+  }
+  
+  private static String generateCsi75069() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_75069.html"));
+  }
+  
+  private static String generateCsi76097() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_76097.html"));
   }
   
   private static String generateMMAbyss() throws IOException {
@@ -153,5 +205,9 @@ public class MockGameData {
 
   private static String generateMMNotFound() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_notfound.html"));
+  }
+
+  private static String generateMM5137() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_5137.html"));
   }
 }
