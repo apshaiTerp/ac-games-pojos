@@ -34,6 +34,12 @@ public class MockGameData {
   public static final int BGG_12001_12020         = 9;
   //This game tests a multiple list with some rows missing
   public static final int BGG_BATCH_ALT           = 10;
+  //This game batch tests a nested short <boardgame> entry in a game
+  public static final int BGG_NESTED_18460        = 11;
+  //This game batch tests a single game with many nested <boardgame> entries under a single game
+  public static final int BGG_MULTINEST_29663     = 12;
+  //This game tests having invalid or null stats data
+  public static final int BGG_50968               = 13;
   
   //This game tests the In Stock lookup
   public static final int CSI_ABYSS               = 100;
@@ -89,6 +95,9 @@ public class MockGameData {
         case BGG_1818                : return generateBgg1818();
         case BGG_12001_12020         : return generateBgg12001_12020();
         case BGG_BATCH_ALT           : return generateBggBatchAlt();
+        case BGG_NESTED_18460        : return generateBggNested18460();
+        case BGG_MULTINEST_29663     : return generateBggMultiNest29663();
+        case BGG_50968               : return generateBgg50968();
         case CSI_ABYSS               : return generateCsiAbyss();
         case CSI_COSMIC_ENCOUNTER    : return generateCsiCosmicEncounter();
         case CSI_COSMIC_INCURSION    : return generateCsiCosmicIncursion();
@@ -151,8 +160,20 @@ public class MockGameData {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_12001-12020.xml"));
   }
 
+  private static String generateBggNested18460() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_nested_18460.xml"));
+  }
+  
   private static String generateBggBatchAlt() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_batch_alt.xml"));
+  }
+  
+  private static String generateBggMultiNest29663() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_multinest_29663.xml"));
+  }
+  
+  private static String generateBgg50968() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("bgg_50968.xml"));
   }
   
   private static String generateCsiAbyss() throws IOException {

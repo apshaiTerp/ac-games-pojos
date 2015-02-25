@@ -286,4 +286,83 @@ public class TestBGGParser extends TestCase {
     
     assertTrue("The world didn't end during this test", true);
   }
+
+  @Test
+  public void testBGGNested18460Parser() {
+    System.out.println ("Launching Test testBGGNested18460Parser()!");
+
+    String xmlContent = MockGameData.generateContentString(MockGameData.BGG_NESTED_18460);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (xmlContent);
+    System.out.println ("Processing List of 20 Games...");
+    System.out.println ("------------------------------------------------------");
+    
+    List<BGGGame> games = null;
+    try {
+      games = BGGGameParser.parseMultiBGGXML(xmlContent);
+      System.out.println ("The total games parsed from list is: " + games.size());
+      for (BGGGame game : games) {
+        System.out.println ("  I parsed game content for " + game.getName() + " [bggid: " + 
+            game.getBggID() + "]");
+      }
+      assertTrue("I didn't get all the elements I was expecting: " + games.size(), games.size() == 20);
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testBGGMultiNest29663Parser() {
+    System.out.println ("Launching Test testBGGMultiNest29663Parser()!");
+
+    String xmlContent = MockGameData.generateContentString(MockGameData.BGG_MULTINEST_29663);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (xmlContent);
+    System.out.println ("Processing List of 19 Games...");
+    System.out.println ("------------------------------------------------------");
+    
+    List<BGGGame> games = null;
+    try {
+      games = BGGGameParser.parseMultiBGGXML(xmlContent);
+      System.out.println ("The total games parsed from list is: " + games.size());
+      for (BGGGame game : games) {
+        System.out.println ("  I parsed game content for " + game.getName() + " [bggid: " + 
+            game.getBggID() + "]");
+      }
+      assertTrue("I didn't get all the elements I was expecting: " + games.size(), games.size() == 19);
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testBGG50968Parser() {
+    System.out.println ("Launching Test testBGG50968Parser()!");
+
+    String xmlContent = MockGameData.generateContentString(MockGameData.BGG_50968);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (xmlContent);
+    System.out.println ("Processing Gary Gygax's Living Fantasy...");
+    System.out.println ("------------------------------------------------------");
+    
+    BGGGame game = null;
+    try {
+      game = BGGGameParser.parseBGGXML(xmlContent);
+      game.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
 }

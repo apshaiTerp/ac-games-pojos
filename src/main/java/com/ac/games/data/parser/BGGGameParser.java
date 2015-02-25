@@ -182,10 +182,15 @@ public class BGGGameParser {
         //Now gather statistics
         Element statsElement   = (Element)elem.getElementsByTagName("statistics").item(0);
         Element ratingsElement = (Element)statsElement.getElementsByTagName("ratings").item(0);
-        Double average     = Double.parseDouble(ratingsElement.getElementsByTagName("average").item(0).getChildNodes().item(0).getNodeValue());
-        game.setBggRating(average);
-        Integer usersRated = Integer.parseInt(ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().item(0).getNodeValue());
-        game.setBggRatingUsers(usersRated);
+        
+        if ((ratingsElement.getElementsByTagName("average").getLength() != 0) && (ratingsElement.getElementsByTagName("average").item(0).getChildNodes().getLength() != 0)) {
+          Double average     = Double.parseDouble(ratingsElement.getElementsByTagName("average").item(0).getChildNodes().item(0).getNodeValue());
+          game.setBggRating(average);
+        }
+        if ((ratingsElement.getElementsByTagName("usersrated").getLength() != 0) && (ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().getLength() != 0)) {
+          Integer usersRated = Integer.parseInt(ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().item(0).getNodeValue());
+          game.setBggRatingUsers(usersRated);
+        }
         
         //Only get the bggRank if not an expansion
         if (gameType != GameType.EXPANSION) {
@@ -263,6 +268,18 @@ public class BGGGameParser {
       //If we have a close, but not a start, we have malformed XML
       if ((startGameTag != -1) && (endGameTag == -1)) {
         throw new RuntimeException ("The List XML was malformed: close </boardgame> without open.");
+      }
+      
+      //We've got to check to see if there's a nested boardgametag within a game, which for some reason
+      //does happen from time to time.
+      int nestedGameTag = xmlContent.indexOf("<boardgame objectid", startGameTag + 20);
+      while ((nestedGameTag != -1) && (nestedGameTag < endGameTag)) {
+        endGameTag = xmlContent.indexOf("</boardgame>", endGameTag + 10);
+        
+        if (endGameTag == -1)
+          throw new RuntimeException("The List XML was malformed: Nested <boardgame> tag unclosed properly");
+       
+        nestedGameTag = xmlContent.indexOf("<boardgame objectid", nestedGameTag + 20);
       }
       
       //Generate substring that includes start and end tag content.
