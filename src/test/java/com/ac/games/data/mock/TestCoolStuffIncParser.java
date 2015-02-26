@@ -24,6 +24,10 @@ public class TestCoolStuffIncParser extends TestCase {
   public final static long DC_DICE_MASTERS_ID  = 207653L;
   //http://www.coolstuffinc.com/p/999999
   public final static long NOT_FOUND_GAME_ID   = 999999L;
+  //http://www.coolstuffinc.com/p/75069
+  public final static long MTG_CARD_ID         = 75069L;
+  //http://www.coolstuffinc.com/p/76069
+  public final static long MTG_CARD_ID2        = 76097L;
   
   @Test
   public void testAbyssParser() {
@@ -136,6 +140,52 @@ public class TestCoolStuffIncParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw other errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+  
+  @Test
+  public void testMTG75069Parser() {
+    System.out.println ("Launching Test testMTG75069Parser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_75069);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Executioner's Hood...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, MTG_CARD_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMTG76097Parser() {
+    System.out.println ("Launching Test testMTG76097Parser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_76097);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Karador, Ghost Chieftain (Oversized Foil)...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, MTG_CARD_ID2);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);

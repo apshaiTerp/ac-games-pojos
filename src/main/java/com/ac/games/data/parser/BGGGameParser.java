@@ -73,21 +73,34 @@ public class BGGGameParser {
         String objectID = node.getAttributes().getNamedItem("objectid").getNodeValue();
         game.setBggID(Long.parseLong(objectID));
         
-        Integer yearPublishedValue  = Integer.parseInt(elem.getElementsByTagName("yearpublished").item(0).getChildNodes().item(0).getNodeValue());
-        game.setYearPublished(yearPublishedValue);
-        Integer maxPlayerValue      = Integer.parseInt(elem.getElementsByTagName("maxplayers").item(0).getChildNodes().item(0).getNodeValue());
-        game.setMaxPlayers(maxPlayerValue);
-        Integer minPlayerValue      = Integer.parseInt(elem.getElementsByTagName("minplayers").item(0).getChildNodes().item(0).getNodeValue());
-        game.setMinPlayers(minPlayerValue);
-        Integer maxPlayingTimeValue = Integer.parseInt(elem.getElementsByTagName("maxplaytime").item(0).getChildNodes().item(0).getNodeValue());
-        game.setMaxPlayingTime(maxPlayingTimeValue);
-        Integer minPlayingTimeValue = Integer.parseInt(elem.getElementsByTagName("minplaytime").item(0).getChildNodes().item(0).getNodeValue());
-        game.setMinPlayingTime(minPlayingTimeValue);
-
-        String imageValue          = "http:" + elem.getElementsByTagName("image").item(0).getChildNodes().item(0).getNodeValue();
-        game.setImageURL(imageValue);
-        String imageThumbnailValue = "http:" + elem.getElementsByTagName("thumbnail").item(0).getChildNodes().item(0).getNodeValue();
-        game.setImageThumbnailURL(imageThumbnailValue);
+        if ((elem.getElementsByTagName("yearpublished").getLength() != 0) && (elem.getElementsByTagName("yearpublished").item(0).getChildNodes().getLength() != 0)) {
+          Integer yearPublishedValue  = Integer.parseInt(elem.getElementsByTagName("yearpublished").item(0).getChildNodes().item(0).getNodeValue());
+          game.setYearPublished(yearPublishedValue);
+        }
+        if ((elem.getElementsByTagName("maxplayers").getLength() != 0) && (elem.getElementsByTagName("maxplayers").item(0).getChildNodes().getLength() != 0)) {
+          Integer maxPlayerValue      = Integer.parseInt(elem.getElementsByTagName("maxplayers").item(0).getChildNodes().item(0).getNodeValue());
+          game.setMaxPlayers(maxPlayerValue);
+        }
+        if ((elem.getElementsByTagName("minplayers").getLength() != 0) && (elem.getElementsByTagName("minplayers").item(0).getChildNodes().getLength() != 0)) {
+          Integer minPlayerValue      = Integer.parseInt(elem.getElementsByTagName("minplayers").item(0).getChildNodes().item(0).getNodeValue());
+          game.setMinPlayers(minPlayerValue);
+        }
+        if ((elem.getElementsByTagName("maxplaytime").getLength() != 0) && (elem.getElementsByTagName("maxplaytime").item(0).getChildNodes().getLength() != 0)) {
+          Integer maxPlayingTimeValue = Integer.parseInt(elem.getElementsByTagName("maxplaytime").item(0).getChildNodes().item(0).getNodeValue());
+          game.setMaxPlayingTime(maxPlayingTimeValue);
+        }
+        if ((elem.getElementsByTagName("minplaytime").getLength() != 0) && (elem.getElementsByTagName("minplaytime").item(0).getChildNodes().getLength() != 0)) {
+          Integer minPlayingTimeValue = Integer.parseInt(elem.getElementsByTagName("minplaytime").item(0).getChildNodes().item(0).getNodeValue());
+          game.setMinPlayingTime(minPlayingTimeValue);
+        }        
+        if ((elem.getElementsByTagName("image").getLength() != 0) && (elem.getElementsByTagName("image").item(0).getChildNodes().getLength() != 0)) {
+          String imageValue          = "http:" + elem.getElementsByTagName("image").item(0).getChildNodes().item(0).getNodeValue();
+          game.setImageURL(imageValue);
+        }
+        if ((elem.getElementsByTagName("thumbnail").getLength() != 0) && (elem.getElementsByTagName("thumbnail").item(0).getChildNodes().getLength() != 0)) {
+          String imageThumbnailValue = "http:" + elem.getElementsByTagName("thumbnail").item(0).getChildNodes().item(0).getNodeValue();
+          game.setImageThumbnailURL(imageThumbnailValue);
+        }
         
         String description         = elem.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue();
         game.setDescription(description);
@@ -169,10 +182,15 @@ public class BGGGameParser {
         //Now gather statistics
         Element statsElement   = (Element)elem.getElementsByTagName("statistics").item(0);
         Element ratingsElement = (Element)statsElement.getElementsByTagName("ratings").item(0);
-        Double average     = Double.parseDouble(ratingsElement.getElementsByTagName("average").item(0).getChildNodes().item(0).getNodeValue());
-        game.setBggRating(average);
-        Integer usersRated = Integer.parseInt(ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().item(0).getNodeValue());
-        game.setBggRatingUsers(usersRated);
+        
+        if ((ratingsElement.getElementsByTagName("average").getLength() != 0) && (ratingsElement.getElementsByTagName("average").item(0).getChildNodes().getLength() != 0)) {
+          Double average     = Double.parseDouble(ratingsElement.getElementsByTagName("average").item(0).getChildNodes().item(0).getNodeValue());
+          game.setBggRating(average);
+        }
+        if ((ratingsElement.getElementsByTagName("usersrated").getLength() != 0) && (ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().getLength() != 0)) {
+          Integer usersRated = Integer.parseInt(ratingsElement.getElementsByTagName("usersrated").item(0).getChildNodes().item(0).getNodeValue());
+          game.setBggRatingUsers(usersRated);
+        }
         
         //Only get the bggRank if not an expansion
         if (gameType != GameType.EXPANSION) {
@@ -215,10 +233,63 @@ public class BGGGameParser {
     return game;
   }
   
-  public static String convertBGGGameToJSON(BGGGame game) {
-    String jsonString = "";
+  /**
+   * This method is designed to allow us to parse mutiple board game requests.  These
+   * are results that are bound between {code}<boardgame objectid=".."..> and </boardgame>{code}.
+   * This method should break the provided XML into the smaller sub-game blocks of XML and
+   * allow the regular {@link #parseBGGXML(String)} method to process them as expected.
+   * 
+   * @param xmlContent The full XML string involved.
+   * 
+   * @return A List of {@link BGGGame} objects, or an empty list if none found.
+   * 
+   * @throws Throwable Throws if something goes wrong during parsing.
+   */
+  public static List<BGGGame> parseMultiBGGXML(String xmlContent) throws Throwable {
+    //First, check for the 'we didn't find what you wanted' message
+    int hasGameIDTag = xmlContent.indexOf("<boardgame objectid");
+    int hasErrorTag  = xmlContent.indexOf("<error message=\"Item not found\"/>");
+    if ((hasGameIDTag == -1) && (hasErrorTag != -1))
+      throw new GameNotFoundException("These games do not exist in the BoardGameGeek library");
     
-    //TODO
-    return jsonString;
+    List<BGGGame> foundGames = new LinkedList<BGGGame>();
+    while (true) {
+      int startGameTag = xmlContent.indexOf("<boardgame objectid");
+      int endGameTag   = xmlContent.indexOf("</boardgame>");
+      
+      //If true, we've hit the end of the games list.
+      if ((startGameTag == -1) && (endGameTag == -1)) {
+        break;
+      }
+      //If we have a start, but not a close, we have malformed XML
+      if ((startGameTag != -1) && (endGameTag == -1)) {
+        throw new RuntimeException ("The List XML was malformed: open <boardgame> without close.");
+      }
+      //If we have a close, but not a start, we have malformed XML
+      if ((startGameTag != -1) && (endGameTag == -1)) {
+        throw new RuntimeException ("The List XML was malformed: close </boardgame> without open.");
+      }
+      
+      //We've got to check to see if there's a nested boardgametag within a game, which for some reason
+      //does happen from time to time.
+      int nestedGameTag = xmlContent.indexOf("<boardgame objectid", startGameTag + 20);
+      while ((nestedGameTag != -1) && (nestedGameTag < endGameTag)) {
+        endGameTag = xmlContent.indexOf("</boardgame>", endGameTag + 10);
+        
+        if (endGameTag == -1)
+          throw new RuntimeException("The List XML was malformed: Nested <boardgame> tag unclosed properly");
+       
+        nestedGameTag = xmlContent.indexOf("<boardgame objectid", nestedGameTag + 20);
+      }
+      
+      //Generate substring that includes start and end tag content.
+      String singleGameXML = "<boardgames>" + xmlContent.substring(startGameTag, endGameTag + 12) + "</boardgames>";
+      
+      BGGGame singleGame = parseBGGXML(singleGameXML);
+      foundGames.add(singleGame);
+      
+      xmlContent = xmlContent.substring(endGameTag + 12);
+    }
+    return foundGames;
   }
 }

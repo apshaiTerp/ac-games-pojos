@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram creationDate="2015-Feb-25 03:15" filterScript="" licenseGrade="single" licenseeName="Adam_Carter" licenseeOrganization="Personal" version="1.7.17.v20140508-2136">
+        <class className="com.ac.games.rest.message.SimpleMessageData" project="ac-games-pojos" xLocation="1487" yLocation="354"/>
+        <class className="com.ac.games.rest.message.SimpleErrorData" project="ac-games-pojos" xLocation="1952" yLocation="345"/>
+        <class className="com.ac.games.data.CSIIDOnlyData" project="ac-games-pojos" xLocation="1442" yLocation="3290"/>
+        <class className="com.ac.games.data.ReviewStateConverter" project="ac-games-pojos" xLocation="2006" yLocation="755"/>
+        <class className="com.ac.games.data.GameTypeConverter" project="ac-games-pojos" xLocation="903" yLocation="487"/>
+        <class className="com.ac.games.data.BGGIDOnlyData" project="ac-games-pojos" xLocation="459" yLocation="3258"/>
+        <class className="com.ac.games.data.ReviewState" project="ac-games-pojos" xLocation="1678" yLocation="745"/>
+        <class className="com.ac.games.data.MiniatureMarketPriceData" project="ac-games-pojos" xLocation="2303" yLocation="2342"/>
+        <class className="com.ac.games.data.GameAvailabilityConverter" project="ac-games-pojos" xLocation="2565" yLocation="503"/>
+        <class className="com.ac.games.data.GameAvailability" project="ac-games-pojos" xLocation="2631" yLocation="956"/>
+        <class className="com.ac.games.data.MMIDOnlyData" project="ac-games-pojos" xLocation="2397" yLocation="3299"/>
+        <class className="com.ac.games.data.GameType" project="ac-games-pojos" xLocation="490" yLocation="502"/>
+        <class className="com.ac.games.data.CoolStuffIncPriceData" project="ac-games-pojos" xLocation="1417" yLocation="2293"/>
+        <class className="com.ac.games.data.BGGGame" project="ac-games-pojos" xLocation="462" yLocation="1492"/>
+        <class className="com.ac.games.data.parser.CoolStuffIncParser" project="ac-games-pojos" xLocation="1431" yLocation="1643"/>
+        <class className="com.ac.games.data.parser.BGGGameParser" project="ac-games-pojos" xLocation="446" yLocation="1045"/>
+        <class className="com.ac.games.data.parser.MiniatureMarketParser" project="ac-games-pojos" xLocation="2364" yLocation="1634"/>
+        <class className="com.ac.games.exception.GameNotFoundException" project="ac-games-pojos" xLocation="999" yLocation="867"/>
+        <class className="com.ac.games.data.mock.TestBGGParser" project="ac-games-pojos" xLocation="891" yLocation="2951"/>
+        <class className="com.ac.games.data.mock.TestCoolStuffIncParser" project="ac-games-pojos" xLocation="1879" yLocation="2983"/>
+        <class className="com.ac.games.data.mock.TestMiniatureMarketParser" project="ac-games-pojos" xLocation="2854" yLocation="2992"/>
+        <class className="com.ac.games.data.mock.MockGameData" project="ac-games-pojos" xLocation="1824" yLocation="3599"/>
+    </diagram>
+</ajsv>

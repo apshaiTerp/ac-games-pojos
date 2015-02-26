@@ -152,4 +152,27 @@ public class TestMiniatureMarketParser extends TestCase {
     
     assertTrue("The world didn't end during this test", true);
   }
+
+  @Test
+  public void testMM5137Parser() {
+    System.out.println ("Launching Test testMM5137Parser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_5137);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing War at Sea #64 Yukikaze...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
 }

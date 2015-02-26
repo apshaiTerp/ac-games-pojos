@@ -52,6 +52,11 @@ public class MiniatureMarketParser {
    * <div class="stock-qty preorder">
    */
   public final static String PREORDER_MARKER     = "<div class=\"stock-qty preorder\">";
+  
+  /** Alternate marker for ID value when MM page has old price information */
+  public final static String ALT_ID_MARKER       = "Product.OptionsPrice({\"productId\":\"";
+  /** Alternate marker for the Price value. */
+  private final static String ALT_PRICE_MARKER   = "meta property=\"product:price:amount\" content=\"";
 
   public static MiniatureMarketPriceData parseMMHTML(String htmlContent) throws Throwable {
     Date startDate = null;
@@ -89,7 +94,14 @@ public class MiniatureMarketParser {
       idValue = htmlContent.substring(ourPricePos + OUR_PRICE_MARKER.length(), 
           htmlContent.indexOf("\">", ourPricePos + OUR_PRICE_MARKER.length()));
       data.setMmID(Long.parseLong(idValue));
-    } else throw new Throwable ("Could not find the ID value correctly.");
+    } else {
+      int idPos = htmlContent.indexOf(ALT_ID_MARKER);
+      if (idPos != -1) {
+        idValue = htmlContent.substring(idPos + ALT_ID_MARKER.length(), 
+            htmlContent.indexOf("\"", idPos + ALT_ID_MARKER.length()));
+        data.setMmID(Long.parseLong(idValue));
+      } else throw new Throwable ("Could not find the ID value correctly.");
+    }
     
     //Get the Availability status
     int inStockMarker    = htmlContent.indexOf(IN_STOCK_MARKER);
@@ -110,14 +122,24 @@ public class MiniatureMarketParser {
       String msrpValue = htmlContent.substring(msrpMarkerPos + MSRP_MARKER.length() + PRICE_MARKER_ADDITIONS.length(), 
           htmlContent.indexOf("</span>", msrpMarkerPos + MSRP_MARKER.length() + PRICE_MARKER_ADDITIONS.length()));
       data.setMsrpValue(Double.parseDouble(msrpValue.trim().replace("$", "")));
-    } else throw new Throwable ("Could not find the MSRP Price (old-price) correctly.");
+    } else { 
+      System.out.println ("Could not find the MSRP Price (old-price) correctly for mmID " + data.getMmID() + ".");
+      //throw new Throwable ("Could not find the MSRP Price (old-price) correctly.");
+    }
     
     int priceMarkerPos = htmlContent.indexOf(OUR_PRICE_MARKER);
     if (priceMarkerPos != -1) {
       String priceValue = htmlContent.substring(priceMarkerPos + OUR_PRICE_MARKER.length() + PRICE_MARKER_ADDITIONS.length(), 
           htmlContent.indexOf("</span>", priceMarkerPos + OUR_PRICE_MARKER.length() + PRICE_MARKER_ADDITIONS.length()));
       data.setCurPrice(Double.parseDouble(priceValue.trim().replace("$", "")));
-    } else throw new Throwable ("Could not find the MSRP Price (old-price) correctly.");
+    } else {
+      priceMarkerPos = htmlContent.indexOf(ALT_PRICE_MARKER);
+      if (priceMarkerPos != -1) {
+        String priceValue = htmlContent.substring(priceMarkerPos + ALT_PRICE_MARKER.length(), 
+            htmlContent.indexOf("\"", priceMarkerPos + ALT_PRICE_MARKER.length()));
+        data.setCurPrice(Double.parseDouble(priceValue.trim()));
+      } else throw new Throwable ("Could not find the Current Price correctly.");
+    }
     
     //Get the Image tag
     int imageMarkerPos = htmlContent.indexOf(IMAGE_MARKER);
