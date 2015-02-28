@@ -28,6 +28,14 @@ public class TestCoolStuffIncParser extends TestCase {
   public final static long MTG_CARD_ID         = 75069L;
   //http://www.coolstuffinc.com/p/76069
   public final static long MTG_CARD_ID2        = 76097L;
+  //http://www.coolstuffinc.com/p/94687
+  public final static long MTG_APE_TOKEN_ID    = 94687L;
+  //http://www.coolstuffinc.com/p/209542
+  public final static long RPG_13TH_AGE_ID     = 209542L;
+  //http://www.coolstuffinc.com/p/210682
+  public final static long NETRUNNER_ID        = 210682L;
+  //http://www.coolstuffinc.com/p/137910
+  public final static long SUPPLIES_SLEEVES_ID = 137910L;
   
   @Test
   public void testAbyssParser() {
@@ -182,6 +190,98 @@ public class TestCoolStuffIncParser extends TestCase {
     CoolStuffIncPriceData data = new CoolStuffIncPriceData();
     try {
       data = CoolStuffIncParser.parseCSIHTML(htmlContent, MTG_CARD_ID2);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMTG94687Parser() {
+    System.out.println ("Launching Test testMTG94687Parser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_94687);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Ape (Token)...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, MTG_APE_TOKEN_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testRPGParser() {
+    System.out.println ("Launching Test testRPGParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_RPG);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing 13th Age: Eyes of the Stone Thief Hardcover...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, RPG_13TH_AGE_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testLCGNetrunnerParser() {
+    System.out.println ("Launching Test testLCGNetrunnerParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_LCG_NETRUNNER);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Netrunner...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, NETRUNNER_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testSuppliesSleevesParser() {
+    System.out.println ("Launching Test testSuppliesSleevesParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_SUPPLIES_SLEEVES);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing 7 Wonders Sleeves...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, SUPPLIES_SLEEVES_ID);
       data.printContentsForDebug();
     } catch (Throwable t) {
       t.printStackTrace();

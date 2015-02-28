@@ -19,6 +19,8 @@ public class CoolStuffIncPriceData {
   private String imageURL;
   /** The game availability value, defined by the {@link GameAvailability} enum */
   private GameAvailability availability;
+  /** The game category, as defined by CoolStuffInc, implemented in the {@link CoolStuffIncCategory} enum */
+  private CoolStuffIncCategory category;
   //**********  The following values are only conditionally present  **********
   /** The MSRP value listed from CSI.  Cannot be found the game is not available */
   private double msrpValue;
@@ -53,6 +55,7 @@ public class CoolStuffIncPriceData {
     reviewState  = null;
     addDate      = null;
     reviewDate   = null;
+    category     = null;
   }
   
   /**
@@ -62,6 +65,15 @@ public class CoolStuffIncPriceData {
     System.out.println ("Printing contents for Game ID " + getCsiID());
     System.out.println ("============================================================");
     System.out.println ("Game Title:          " + getTitle());
+    switch (getCategory()) {
+      case COLLECTIBLE : System.out.println ("Category:            Collectible Card Games"); break;
+      case DICEMASTERS : System.out.println ("Category:            Dice Masters"); break;
+      case BOARDGAMES  : System.out.println ("Category:            Board Games"); break;
+      case RPGS        : System.out.println ("Category:            Role Playing Games"); break;
+      case LCGS        : System.out.println ("Category:            Living Card Games"); break;
+      case SUPPLIES    : System.out.println ("Category:            Supplies"); break;
+      default          : System.out.println ("Category:            [-]"); break;
+    }
     System.out.println ("Game Image:          " + getImageURL());
     System.out.println ("SKU:                 " + getSku());
     switch (getAvailability()) {
@@ -244,5 +256,19 @@ public class CoolStuffIncPriceData {
    */
   public void setReviewDate(Date reviewDate) {
     this.reviewDate = reviewDate;
+  }
+
+  /**
+   * @return the category
+   */
+  public CoolStuffIncCategory getCategory() {
+    return category;
+  }
+
+  /**
+   * @param category the category to set
+   */
+  public void setCategory(CoolStuffIncCategory category) {
+    this.category = category;
   }
 }

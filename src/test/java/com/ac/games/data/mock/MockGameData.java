@@ -55,6 +55,14 @@ public class MockGameData {
   public static final int CSI_75069               = 105;
   //This game is an early game that has different information for availability
   public static final int CSI_76097               = 106;
+  //This game is an early game that has missing information for availability
+  public static final int CSI_94687               = 107;
+  //This game tests the RPG category identification
+  public static final int CSI_RPG                 = 108;
+  //This game tests the LCG category identification
+  public static final int CSI_LCG_NETRUNNER       = 109;
+  //This game tests teh supplies entries category
+  public static final int CSI_SUPPLIES_SLEEVES    = 110;
   
   //This game tests the In Stock lookup
   public static final int MM_ABYSS                = 200;
@@ -105,6 +113,10 @@ public class MockGameData {
         case CSI_NOT_FOUND           : return generateCsiNotFound();
         case CSI_75069               : return generateCsi75069();
         case CSI_76097               : return generateCsi76097();
+        case CSI_94687               : return generateCsi94687();
+        case CSI_RPG                 : return generateCsiRPG();
+        case CSI_LCG_NETRUNNER       : return generateCsiLCGNetrunner();
+        case CSI_SUPPLIES_SLEEVES    : return generateCsiSuppliesSleeves();
         case MM_ABYSS                : return generateMMAbyss();
         case MM_COSMIC_ENCOUNTER     : return generateMMCosmicEncounter();
         case MM_COSMIC_INCURSION     : return generateMMCosmicIncursion();
@@ -202,6 +214,22 @@ public class MockGameData {
   
   private static String generateCsi76097() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_76097.html"));
+  }
+  
+  private static String generateCsi94687() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_94687.html"));
+  }
+  
+  private static String generateCsiRPG() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_rpg.html"));
+  }
+  
+  private static String generateCsiLCGNetrunner() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_lcg_netrunner.html"));
+  }
+  
+  private static String generateCsiSuppliesSleeves() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_supplies_sleeves.html"));
   }
   
   private static String generateMMAbyss() throws IOException {
