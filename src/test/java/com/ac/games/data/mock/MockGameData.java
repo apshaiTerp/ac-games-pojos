@@ -61,8 +61,10 @@ public class MockGameData {
   public static final int CSI_RPG                 = 108;
   //This game tests the LCG category identification
   public static final int CSI_LCG_NETRUNNER       = 109;
-  //This game tests teh supplies entries category
+  //This game tests the supplies entries category
   public static final int CSI_SUPPLIES_SLEEVES    = 110;
+  //This game tests the miniatures entries category
+  public static final int CSI_MINIATURES          = 111;
   
   //This game tests the In Stock lookup
   public static final int MM_ABYSS                = 200;
@@ -117,6 +119,7 @@ public class MockGameData {
         case CSI_RPG                 : return generateCsiRPG();
         case CSI_LCG_NETRUNNER       : return generateCsiLCGNetrunner();
         case CSI_SUPPLIES_SLEEVES    : return generateCsiSuppliesSleeves();
+        case CSI_MINIATURES          : return generateCsiMiniatures();
         case MM_ABYSS                : return generateMMAbyss();
         case MM_COSMIC_ENCOUNTER     : return generateMMCosmicEncounter();
         case MM_COSMIC_INCURSION     : return generateMMCosmicIncursion();
@@ -232,7 +235,11 @@ public class MockGameData {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_supplies_sleeves.html"));
   }
   
-  private static String generateMMAbyss() throws IOException {
+  private static String generateCsiMiniatures() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_miniatures.html"));
+  }
+  
+   private static String generateMMAbyss() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_abyss.html"));
   }
 

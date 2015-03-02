@@ -18,8 +18,10 @@ public class CoolStuffIncCategoryConverter {
   public final static int RPGS_FLAG        = 3;
   /** Integer flag corresponding to Living Card Games */
   public final static int LCGS_FLAG        = 4;
-  /** Integer flag corresponding to CCGs */
+  /** Integer flag corresponding to Supplies */
   public final static int SUPPLIES_FLAG    = 5;
+  /** Integer flag corresponding to Miniatures */
+  public final static int MINIATURES_FLAG  = 6;
   
   /**
    * Helper method to convert from CoolStuffIncCategory enum to a static flag value.
@@ -35,6 +37,7 @@ public class CoolStuffIncCategoryConverter {
       case RPGS        : return RPGS_FLAG;
       case LCGS        : return LCGS_FLAG;
       case SUPPLIES    : return SUPPLIES_FLAG;
+      case MINIATURES  : return MINIATURES_FLAG;
       default          : return DEFAULT_FLAG;
     }
   }
@@ -53,6 +56,7 @@ public class CoolStuffIncCategoryConverter {
       case RPGS_FLAG        : return CoolStuffIncCategory.RPGS;
       case LCGS_FLAG        : return CoolStuffIncCategory.LCGS;
       case SUPPLIES_FLAG    : return CoolStuffIncCategory.SUPPLIES;
+      case MINIATURES_FLAG  : return CoolStuffIncCategory.MINIATURES;
       default               : return null;
     }
   }

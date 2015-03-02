@@ -59,6 +59,8 @@ public class CoolStuffIncParser {
   public final static String LCG_MARKER          = "| Living Card Games |";
   /** Simple Text Marker for the Supplies Category */ 
   public final static String SUPPLIES_MARKER     = "| Supplies |";
+  /** Simple Text Marker for the Miniatures Category */ 
+  public final static String MINIATURES_MARKER   = "| Miniatures, ";
   
   /**
    * This is a static method used to parse out {@link CoolStuffIncPriceData} content from 
@@ -111,15 +113,17 @@ public class CoolStuffIncParser {
     int rpgMarkerPos         = htmlContent.indexOf(RPG_MARKER);
     int lcgMarkerPos         = htmlContent.indexOf(LCG_MARKER);
     int suppliesMarkerPos    = htmlContent.indexOf(SUPPLIES_MARKER);
+    int miniaturesMarkerPos  = htmlContent.indexOf(MINIATURES_MARKER);
     
     if (ccgMarkerPos != -1) {
-      if (diceMastersMarkerPos != -1) data.setCategory(CoolStuffIncCategory.DICEMASTERS);
-      else                            data.setCategory(CoolStuffIncCategory.COLLECTIBLE);
+      if (diceMastersMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.DICEMASTERS);
+      else                              data.setCategory(CoolStuffIncCategory.COLLECTIBLE);
     } 
-    else if (boardGameMarkerPos != -1) data.setCategory(CoolStuffIncCategory.BOARDGAMES);
-    else if (rpgMarkerPos != -1)       data.setCategory(CoolStuffIncCategory.RPGS);
-    else if (lcgMarkerPos != -1)       data.setCategory(CoolStuffIncCategory.LCGS);
-    else if (suppliesMarkerPos != -1)  data.setCategory(CoolStuffIncCategory.SUPPLIES);
+    else if (boardGameMarkerPos != -1)  data.setCategory(CoolStuffIncCategory.BOARDGAMES);
+    else if (rpgMarkerPos != -1)        data.setCategory(CoolStuffIncCategory.RPGS);
+    else if (lcgMarkerPos != -1)        data.setCategory(CoolStuffIncCategory.LCGS);
+    else if (suppliesMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.SUPPLIES);
+    else if (miniaturesMarkerPos != -1) data.setCategory(CoolStuffIncCategory.MINIATURES);
     else throw new Throwable ("Could not find the category correctly!");
     
     int imageMarkerPos = htmlContent.indexOf(IMAGE_MARKER);

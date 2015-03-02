@@ -290,4 +290,27 @@ public class TestCoolStuffIncParser extends TestCase {
     
     assertTrue("The world didn't end during this test", true);
   }
+  
+  @Test
+  public void testMiniaturesParser() {
+    System.out.println ("Launching Test testMiniaturesParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_MINIATURES);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Dragon Collector's Set Sleeves...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, SUPPLIES_SLEEVES_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
 }

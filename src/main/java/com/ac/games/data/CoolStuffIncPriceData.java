@@ -72,6 +72,7 @@ public class CoolStuffIncPriceData {
       case RPGS        : System.out.println ("Category:            Role Playing Games"); break;
       case LCGS        : System.out.println ("Category:            Living Card Games"); break;
       case SUPPLIES    : System.out.println ("Category:            Supplies"); break;
+      case MINIATURES  : System.out.println ("Category:            Miniatures"); break;
       default          : System.out.println ("Category:            [-]"); break;
     }
     System.out.println ("Game Image:          " + getImageURL());
