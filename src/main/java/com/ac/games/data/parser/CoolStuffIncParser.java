@@ -96,6 +96,9 @@ public class CoolStuffIncParser {
     if ((notFoundTag != -1) && (title.startsWith("CoolStuffInc.com")))
       throw new GameNotFoundException("This game does have an entry at CoolStuffInc.com.");
     
+    if (title.startsWith("Gift Certificate"))
+      throw new GameNotFoundException("This game is not actually a game, it's a gift certificate form.");
+    
     int skuMarkerPos = htmlContent.indexOf(SKU_MARKER);
     if (skuMarkerPos != -1) {
       String sku = htmlContent.substring(skuMarkerPos + SKU_MARKER.length(), 

@@ -36,6 +36,8 @@ public class TestCoolStuffIncParser extends TestCase {
   public final static long NETRUNNER_ID        = 210682L;
   //http://www.coolstuffinc.com/p/137910
   public final static long SUPPLIES_SLEEVES_ID = 137910L;
+  //http://www/coolstuffinc.com/p/153126
+  public final static long GIFT_CERTIFICATE_ID = 153126;
   
   @Test
   public void testAbyssParser() {
@@ -309,6 +311,30 @@ public class TestCoolStuffIncParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testGiftCertificateParser() {
+    System.out.println ("Launching Test testGiftCertificateParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_GIFT_CERTIFICATE);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Gift Certificate...");
+    System.out.println ("------------------------------------------------------");
+    
+    try {
+      CoolStuffIncParser.parseCSIHTML(htmlContent, GIFT_CERTIFICATE_ID);
+      fail("This game should not have been found, this should be an error!");
+    } catch (GameNotFoundException gnfe) { 
+      assertNotNull("This is the only correct outcome for this test", gnfe.getMessage());
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw other errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);
