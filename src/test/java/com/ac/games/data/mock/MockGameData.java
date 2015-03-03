@@ -67,6 +67,8 @@ public class MockGameData {
   public static final int CSI_MINIATURES          = 111;
   //This is some sort of weird gift certificate page
   public static final int CSI_GIFT_CERTIFICATE    = 112;
+  //This game tests the video game category?
+  public static final int CSI_VIDEO_GAME          = 113;
   
   //This game tests the In Stock lookup
   public static final int MM_ABYSS                = 200;
@@ -138,6 +140,7 @@ public class MockGameData {
         case CSI_SUPPLIES_SLEEVES    : return generateCsiSuppliesSleeves();
         case CSI_MINIATURES          : return generateCsiMiniatures();
         case CSI_GIFT_CERTIFICATE    : return generateCsiGiftCertificate();
+        case CSI_VIDEO_GAME          : return generateCsiVideoGame();
         case MM_ABYSS                : return generateMMAbyss();
         case MM_COSMIC_ENCOUNTER     : return generateMMCosmicEncounter();
         case MM_COSMIC_INCURSION     : return generateMMCosmicIncursion();
@@ -266,6 +269,10 @@ public class MockGameData {
   
   private static String generateCsiGiftCertificate() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_153126.html"));
+  }
+  
+  private static String generateCsiVideoGame() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("csi_videogames.html"));
   }
   
    private static String generateMMAbyss() throws IOException {

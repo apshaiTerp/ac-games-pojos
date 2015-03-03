@@ -22,6 +22,10 @@ public class CoolStuffIncCategoryConverter {
   public final static int SUPPLIES_FLAG    = 5;
   /** Integer flag corresponding to Miniatures */
   public final static int MINIATURES_FLAG  = 6;
+  /** Integer flag corresponding to Video Games */
+  public final static int VIDEOGAMES_FLAG  = 7;
+  /** Integer flag corresponding to I couldn't find anything... */
+  public final static int UNKNOWN_FLAG     = 8;
   
   /**
    * Helper method to convert from CoolStuffIncCategory enum to a static flag value.
@@ -38,6 +42,8 @@ public class CoolStuffIncCategoryConverter {
       case LCGS        : return LCGS_FLAG;
       case SUPPLIES    : return SUPPLIES_FLAG;
       case MINIATURES  : return MINIATURES_FLAG;
+      case VIDEOGAMES  : return VIDEOGAMES_FLAG;
+      case UNKNOWN     : return UNKNOWN_FLAG;
       default          : return DEFAULT_FLAG;
     }
   }
@@ -57,6 +63,8 @@ public class CoolStuffIncCategoryConverter {
       case LCGS_FLAG        : return CoolStuffIncCategory.LCGS;
       case SUPPLIES_FLAG    : return CoolStuffIncCategory.SUPPLIES;
       case MINIATURES_FLAG  : return CoolStuffIncCategory.MINIATURES;
+      case VIDEOGAMES_FLAG  : return CoolStuffIncCategory.VIDEOGAMES;
+      case UNKNOWN_FLAG     : return CoolStuffIncCategory.UNKNOWN;
       default               : return null;
     }
   }

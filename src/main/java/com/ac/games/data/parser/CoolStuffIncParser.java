@@ -61,6 +61,8 @@ public class CoolStuffIncParser {
   public final static String SUPPLIES_MARKER     = "| Supplies |";
   /** Simple Text Marker for the Miniatures Category */ 
   public final static String MINIATURES_MARKER   = "| Miniatures, ";
+  /** Simple Text Marker for the Miniatures Category */ 
+  public final static String VIDEOGAMES_MARKER   = "| Video Games |";
   
   /**
    * This is a static method used to parse out {@link CoolStuffIncPriceData} content from 
@@ -120,6 +122,7 @@ public class CoolStuffIncParser {
     int lcgMarkerPos         = htmlContent.indexOf(LCG_MARKER);
     int suppliesMarkerPos    = htmlContent.indexOf(SUPPLIES_MARKER);
     int miniaturesMarkerPos  = htmlContent.indexOf(MINIATURES_MARKER);
+    int videoGamesMarkerPos  = htmlContent.indexOf(VIDEOGAMES_MARKER);
     
     if (ccgMarkerPos != -1) {
       if (diceMastersMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.DICEMASTERS);
@@ -130,7 +133,8 @@ public class CoolStuffIncParser {
     else if (lcgMarkerPos != -1)        data.setCategory(CoolStuffIncCategory.LCGS);
     else if (suppliesMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.SUPPLIES);
     else if (miniaturesMarkerPos != -1) data.setCategory(CoolStuffIncCategory.MINIATURES);
-    else throw new Throwable ("Could not find the category correctly!");
+    else if (videoGamesMarkerPos != -1) data.setCategory(CoolStuffIncCategory.VIDEOGAMES);
+    else                                data.setCategory(CoolStuffIncCategory.UNKNOWN);
     
     int imageMarkerPos = htmlContent.indexOf(IMAGE_MARKER);
     if (imageMarkerPos != -1) {

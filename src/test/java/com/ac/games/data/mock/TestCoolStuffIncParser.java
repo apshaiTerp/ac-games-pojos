@@ -37,7 +37,9 @@ public class TestCoolStuffIncParser extends TestCase {
   //http://www.coolstuffinc.com/p/137910
   public final static long SUPPLIES_SLEEVES_ID = 137910L;
   //http://www/coolstuffinc.com/p/153126
-  public final static long GIFT_CERTIFICATE_ID = 153126;
+  public final static long GIFT_CERTIFICATE_ID = 153126L;
+  //http://www/coolstuffinc.com/p/169582
+  public final static long VIDEO_GAME_ID       = 169582L;
   
   @Test
   public void testAbyssParser() {
@@ -335,6 +337,29 @@ public class TestCoolStuffIncParser extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
       fail("Should not throw other errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+  
+  @Test
+  public void testVideoGamesParser() {
+    System.out.println ("Launching Test testVideoGamesParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.CSI_VIDEO_GAME);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing 50 Cent Blood on the Sand...");
+    System.out.println ("------------------------------------------------------");
+    
+    CoolStuffIncPriceData data = new CoolStuffIncPriceData();
+    try {
+      data = CoolStuffIncParser.parseCSIHTML(htmlContent, VIDEO_GAME_ID);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
     }
     
     assertTrue("The world didn't end during this test", true);
