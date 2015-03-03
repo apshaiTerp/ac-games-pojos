@@ -24,6 +24,8 @@ public class MiniatureMarketPriceData {
   private double msrpValue;
   /** The current price listed on MM.  Cannot be found the game is not available */
   private double curPrice;
+  /** Adding category requirements */
+  private MiniatureMarketCategory category;
   
   //**********  These are fields to help with the data review  **********
   /** Flag to help us know the review state of this object */
@@ -47,6 +49,7 @@ public class MiniatureMarketPriceData {
     reviewState  = null;
     addDate      = null;
     reviewDate   = null;
+    category     = null;
   }
   
   /**
@@ -56,6 +59,16 @@ public class MiniatureMarketPriceData {
     System.out.println ("Printing contents for Game ID " + getMmID());
     System.out.println ("============================================================");
     System.out.println ("Game Title:          " + getTitle());
+    switch (getCategory()) {
+      case BOARDGAMES   : System.out.println ("Category:            Board Games"); break;
+      case TABLETOP     : System.out.println ("Category:            Table Top Miniatures"); break;
+      case CCGS         : System.out.println ("Category:            Collectible Card Games"); break;
+      case COLLECTIBLES : System.out.println ("Category:            Collectible Miniatures"); break;
+      case RPGS         : System.out.println ("Category:            Role Playing Games"); break;
+      case ACCESSORIES  : System.out.println ("Category:            Accessories"); break;
+      case UNKNOWN      : System.out.println ("Category:            Unknown"); break;
+      default           : System.out.println ("Category:            [-]"); break;
+    }
     System.out.println ("Game Image:          " + getImageURL());
     System.out.println ("SKU:                 " + getSku());
     switch (getAvailability()) {
@@ -220,6 +233,20 @@ public class MiniatureMarketPriceData {
    */
   public void setReviewDate(Date reviewDate) {
     this.reviewDate = reviewDate;
+  }
+
+  /**
+   * @return the category
+   */
+  public MiniatureMarketCategory getCategory() {
+    return category;
+  }
+
+  /**
+   * @param category the category to set
+   */
+  public void setCategory(MiniatureMarketCategory category) {
+    this.category = category;
   }
 
   /**

@@ -80,6 +80,21 @@ public class MockGameData {
   public static final int MM_NOT_FOUND            = 205;
   //This game tests incomplete data from MM
   public static final int MM_5137                 = 206;
+
+  //This game tests the accessories category
+  public static final int MM_ACCESSORIES          = 207;
+  //This game tests the board games category
+  public static final int MM_BOARDGAMES           = 208;
+  //This game tests the CCGs category
+  public static final int MM_CCGS                 = 209;
+  //This game tests the Collectible Minis category
+  public static final int MM_COLLECTIBLEMINIS     = 210;
+  //This game tests the RPGs category
+  public static final int MM_RPGS                 = 211;
+  //This game tests the Table Top Minis category
+  public static final int MM_TABLETOPMINIS        = 212;
+  //This game tests inability to find a category and assign it to unknown
+  public static final int MM_UNKNOWN              = 213;
   
   private final static MockGameData gameData = new MockGameData();
   
@@ -127,6 +142,13 @@ public class MockGameData {
         case MM_XWING_IG2000         : return generateMMXWingIG2000();
         case MM_NOT_FOUND            : return generateMMNotFound();
         case MM_5137                 : return generateMM5137();
+        case MM_ACCESSORIES          : return generateMMAccessories();
+        case MM_BOARDGAMES           : return generateMMBoardGames();
+        case MM_CCGS                 : return generateMMCCGs();
+        case MM_COLLECTIBLEMINIS     : return generateMMCollectibleMinis();
+        case MM_RPGS                 : return generateMMRPGs();
+        case MM_TABLETOPMINIS        : return generateMMTableTopMinis();
+        case MM_UNKNOWN              : return generateMMUnknown();
         default : return "";
       }
     } catch (IOException ioe) {
@@ -265,5 +287,33 @@ public class MockGameData {
 
   private static String generateMM5137() throws IOException {
     return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_5137.html"));
+  }
+
+  private static String generateMMAccessories() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_accessories.html"));
+  }
+
+  private static String generateMMBoardGames() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_boardgames.html"));
+  }
+
+  private static String generateMMCCGs() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_ccgs.html"));
+  }
+
+  private static String generateMMCollectibleMinis() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_collectibleminis.html"));
+  }
+
+  private static String generateMMRPGs() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_rpgs.html"));
+  }
+
+  private static String generateMMTableTopMinis() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_tabletopminis.html"));
+  }
+
+  private static String generateMMUnknown() throws IOException {
+    return IOUtils.toString(gameData.getClass().getResourceAsStream("mm_unknown.html"));
   }
 }
