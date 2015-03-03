@@ -78,6 +78,9 @@ public class CoolStuffIncParser {
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
     
+    if (htmlContent == null)
+      throw new GameNotFoundException("No game data was provided, htmlContent was null");
+    
     //Check for the "Product not found." text that let's us know we didn't find what we
     //were looking for
     int notFoundTag = htmlContent.indexOf("Product not found.");

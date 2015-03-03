@@ -78,6 +78,9 @@ public class MiniatureMarketParser {
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
     
+    if (htmlContent == null)
+      throw new GameNotFoundException("No game data was provided, htmlContent was null");
+    
     int notFound404Marker = htmlContent.indexOf("<title>404 Not Found");
     if (notFound404Marker != -1)
       throw new GameNotFoundException("This game does have an entry at MiniatureMarket.com.");
