@@ -96,6 +96,7 @@ public class CoolStuffIncPriceData {
       switch (reviewState) {
         case PENDING  : System.out.println ("Review State:        Pending");  break;
         case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
+        case REJECTED : System.out.println ("Review State:        Rejected"); break;
       }
     }
     if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 

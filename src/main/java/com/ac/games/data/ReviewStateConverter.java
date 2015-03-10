@@ -9,12 +9,14 @@ package com.ac.games.data;
  */
 public class ReviewStateConverter {
 
-  /** Integer flag corresponding to no GameAvailability set */
+  /** Integer flag corresponding to no ReviewState set */
   public final static int DEFAULT_FLAG  = -1;
-  /** Integer flag corresponding to In Stock */
+  /** Integer flag corresponding to Pending */
   public final static int PENDING_FLAG  = 0;
-  /** Integer flag corresponding to Out of Stock */
+  /** Integer flag corresponding to Reviewed */
   public final static int REVIEWED_FLAG = 1;
+  /** Integer flag corresponding to Rejected */
+  public final static int REJECTED_FLAG = 2;
   
   /**
    * Helper method to convert from ReviewState enum to a static flag value.
@@ -26,6 +28,7 @@ public class ReviewStateConverter {
     switch (state) {
       case PENDING  : return PENDING_FLAG;
       case REVIEWED : return REVIEWED_FLAG;
+      case REJECTED : return REJECTED_FLAG;
       default       : return DEFAULT_FLAG;
     }
   }
@@ -40,6 +43,7 @@ public class ReviewStateConverter {
       case DEFAULT_FLAG  : return null;
       case PENDING_FLAG  : return ReviewState.PENDING;
       case REVIEWED_FLAG : return ReviewState.REVIEWED;
+      case REJECTED_FLAG : return ReviewState.REJECTED;
       default            : return null;
     }
   }

@@ -11,8 +11,8 @@ public class GameReltn {
   private long         reltnID;
   private long         gameID;
   private long         bggID;
-  private long         csiID;
-  private long         mmID;
+  private List<Long>   csiIDs;
+  private List<Long>   mmIDs;
   private List<String> asinKeys;
   private List<Long>   otherSites;
 
@@ -20,8 +20,8 @@ public class GameReltn {
     reltnID    = -1L;
     gameID     = -1L;
     bggID      = -1L;
-    csiID      = -1L;
-    mmID       = -1L;
+    csiIDs     = null;
+    mmIDs      = null;
     asinKeys   = null;
     otherSites = null;
   }
@@ -29,22 +29,32 @@ public class GameReltn {
   public void printContentsForDebug() {
     System.out.println ("Printing contents for GameReltn ID " + getReltnID());
     System.out.println ("============================================================");
-    System.out.println ("Game ID:            " + (gameID == -1L ? "-" : getGameID()));
-    System.out.println ("BoardGameGeek ID:   " + (bggID == -1L ? "-" : getBggID()));
-    System.out.println ("CoolStuffInc ID:    " + (csiID == -1L ? "-" : getCsiID()));
-    System.out.println ("MiniatureMarket ID: " + (mmID == -1L ? "-" : getMmID()));
+    System.out.println ("Game ID:             " + (gameID == -1L ? "-" : getGameID()));
+    System.out.println ("BoardGameGeek ID:    " + (bggID == -1L ? "-" : getBggID()));
     
+    if (getCsiIDs() != null) {
+      System.out.println ("CoolStuffInc IDs:    [" + csiIDs.size() + "]");
+      for (long csiID : csiIDs)
+        System.out.println ("                     " + csiID);
+    } else System.out.println ("CoolStuffInc IDs:    [-]");
+
+    if (getMmIDs() != null) {
+      System.out.println ("MiniatureMarket IDs: [" + mmIDs.size() + "]");
+      for (long mmID : mmIDs)
+        System.out.println ("                     " + mmID);
+    } else System.out.println ("MiniatureMarket IDs: [-]");
+
     if (getAsinKeys() != null) {
-      System.out.println ("AsinKeys:           [" + asinKeys.size() + "]");
+      System.out.println ("AsinKeys:            [" + asinKeys.size() + "]");
       for (String asinKey : asinKeys)
         System.out.println ("                     " + asinKey);
-    } else System.out.println ("AsinKeys:           [-]");
+    } else System.out.println ("AsinKeys:            [-]");
     
     if (getOtherSites() != null) {
-      System.out.println ("Other Sites:        [" + otherSites.size() + "]");
+      System.out.println ("Other Sites:         [" + otherSites.size() + "]");
       for (long site : otherSites)
         System.out.println ("                     " + site);
-    } else System.out.println ("Other Sites:        [-]");
+    } else System.out.println ("Other Sites:         [-]");
   }
 
   /**
@@ -90,31 +100,31 @@ public class GameReltn {
   }
 
   /**
-   * @return the csiID
+   * @return the csiIDs
    */
-  public long getCsiID() {
-    return csiID;
+  public List<Long> getCsiIDs() {
+    return csiIDs;
   }
 
   /**
-   * @param csiID the csiID to set
+   * @param csiIDs the csiIDs to set
    */
-  public void setCsiID(long csiID) {
-    this.csiID = csiID;
+  public void setCsiIDs(List<Long> csiIDs) {
+    this.csiIDs = csiIDs;
   }
 
   /**
-   * @return the mmID
+   * @return the mmIDs
    */
-  public long getMmID() {
-    return mmID;
+  public List<Long> getMmIDs() {
+    return mmIDs;
   }
 
   /**
-   * @param mmID the mmID to set
+   * @param mmIDs the mmIDs to set
    */
-  public void setMmID(long mmID) {
-    this.mmID = mmID;
+  public void setMmIDs(List<Long> mmIDs) {
+    this.mmIDs = mmIDs;
   }
 
   /**

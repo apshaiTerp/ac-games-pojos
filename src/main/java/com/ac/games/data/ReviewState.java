@@ -6,5 +6,5 @@ package com.ac.games.data;
  * @author ac010168
  */
 public enum ReviewState {
-  PENDING, REVIEWED
+  PENDING, REVIEWED, REJECTED
 }
