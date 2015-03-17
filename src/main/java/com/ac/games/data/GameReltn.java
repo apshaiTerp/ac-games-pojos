@@ -1,11 +1,18 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ac010168
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GameReltn {
   
   private long         reltnID;
@@ -24,6 +31,27 @@ public class GameReltn {
     mmIDs      = null;
     asinKeys   = null;
     otherSites = null;
+  }
+  
+  public GameReltn(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      GameReltn jsonData = mapper.readValue(jsonString, GameReltn.class);
+      reltnID    = jsonData.reltnID;
+      gameID     = jsonData.gameID;
+      bggID      = jsonData.bggID;
+      csiIDs     = jsonData.csiIDs;
+      mmIDs      = jsonData.mmIDs;
+      asinKeys   = jsonData.asinKeys;
+      otherSites = jsonData.otherSites;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
   
   public void printContentsForDebug() {

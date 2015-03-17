@@ -1,12 +1,19 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ac010168
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Game {
 
   /** The gameID assigned at creation */
@@ -101,6 +108,43 @@ public class Game {
     gameType          = null;
     
     addDate           = null;
+  }
+  
+  public Game(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      Game jsonData = mapper.readValue(jsonString, Game.class);
+      gameID            = jsonData.gameID;
+      bggID             = jsonData.bggID;
+      name              = jsonData.name;
+      yearPublished     = jsonData.yearPublished;
+      minPlayers        = jsonData.minPlayers;
+      maxPlayers        = jsonData.maxPlayers;
+      minPlayingTime    = jsonData.minPlayingTime;
+      maxPlayingTime    = jsonData.maxPlayingTime;
+      imageURL          = jsonData.imageURL;
+      imageThumbnailURL = jsonData.imageThumbnailURL;
+      description       = jsonData.description;
+      
+      primaryPublisher  = jsonData.primaryPublisher;
+      publishers        = jsonData.publishers;
+      designers         = jsonData.designers;
+      categories        = jsonData.categories;
+      mechanisms        = jsonData.categories;
+
+      expansionIDs      = jsonData.expansionIDs;
+      parentGameID      = jsonData.parentGameID;
+      gameType          = jsonData.gameType;
+      
+      addDate           = jsonData.addDate;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
 
   /**

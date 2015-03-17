@@ -1,13 +1,20 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This is a POJO representing the basic information read from the BoardGameGeek XML API.
  * 
  * @author ac010168
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BGGGame {
   
   /** The objectid for this game on bgg */
@@ -123,6 +130,47 @@ public class BGGGame {
     reviewState       = null;
     addDate           = null;
     reviewDate        = null;
+  }
+  
+  public BGGGame(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      BGGGame game = mapper.readValue(jsonString, BGGGame.class);
+      bggID             = game.bggID;
+      name              = game.name;
+      yearPublished     = game.yearPublished;
+      minPlayers        = game.minPlayers;
+      maxPlayers        = game.minPlayers;
+      minPlayingTime    = game.minPlayingTime;
+      maxPlayingTime    = game.maxPlayingTime;
+      imageURL          = game.imageURL;
+      imageThumbnailURL = game.imageThumbnailURL;
+      description       = game.description;
+      
+      bggRating         = game.bggRating;
+      bggRatingUsers    = game.bggRatingUsers;
+      
+      publishers        = game.publishers;
+      designers         = game.designers;
+      categories        = game.categories;
+      mechanisms        = game.mechanisms;
+      
+      bggRank           = game.bggRank;
+      expansionIDs      = game.expansionIDs;
+      parentGameID      = game.parentGameID;
+      gameType          = game.gameType;
+      
+      reviewState       = game.reviewState;
+      addDate           = game.addDate;
+      reviewDate        = game.reviewDate;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
   
   /**

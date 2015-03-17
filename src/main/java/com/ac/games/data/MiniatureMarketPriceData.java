@@ -1,12 +1,19 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ac010168
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MiniatureMarketPriceData {
 
   /** Miniature Market Game ID */
@@ -39,7 +46,7 @@ public class MiniatureMarketPriceData {
   public final static DecimalFormat moneyFormat = new DecimalFormat("$###,###.##");
   
   public MiniatureMarketPriceData() {
-    mmID = -1L;
+    mmID         = -1L;
     sku          = null;
     title        = null;
     imageURL     = null;
@@ -50,6 +57,31 @@ public class MiniatureMarketPriceData {
     addDate      = null;
     reviewDate   = null;
     category     = null;
+  }
+  
+  public MiniatureMarketPriceData(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      MiniatureMarketPriceData jsonData = mapper.readValue(jsonString, MiniatureMarketPriceData.class);
+      mmID         = jsonData.mmID;
+      sku          = jsonData.sku;
+      title        = jsonData.title;
+      imageURL     = jsonData.imageURL;
+      availability = jsonData.availability;
+      msrpValue    = jsonData.msrpValue;
+      curPrice     = jsonData.curPrice;
+      reviewState  = jsonData.reviewState;
+      addDate      = jsonData.addDate;
+      reviewDate   = jsonData.reviewDate;
+      category     = jsonData.category;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
   
   /**
