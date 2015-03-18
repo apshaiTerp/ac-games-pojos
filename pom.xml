@@ -4,7 +4,7 @@
   
   <groupId>com.ac.games</groupId>
   <artifactId>ac-games-pojos</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>POJO library for Collection Management project</name>
