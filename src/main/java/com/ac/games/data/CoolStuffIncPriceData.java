@@ -1,12 +1,19 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ac010168
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CoolStuffIncPriceData {
 
   /** Cool Stuff Inc Game ID */
@@ -19,6 +26,8 @@ public class CoolStuffIncPriceData {
   private String imageURL;
   /** The game availability value, defined by the {@link GameAvailability} enum */
   private GameAvailability availability;
+  /** The game category, as defined by CoolStuffInc, implemented in the {@link CoolStuffIncCategory} enum */
+  private CoolStuffIncCategory category;
   //**********  The following values are only conditionally present  **********
   /** The MSRP value listed from CSI.  Cannot be found the game is not available */
   private double msrpValue;
@@ -53,6 +62,33 @@ public class CoolStuffIncPriceData {
     reviewState  = null;
     addDate      = null;
     reviewDate   = null;
+    category     = null;
+  }
+  
+  public CoolStuffIncPriceData(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      CoolStuffIncPriceData jsonData = mapper.readValue(jsonString, CoolStuffIncPriceData.class);
+      csiID        = jsonData.csiID;
+      sku          = jsonData.sku;
+      title        = jsonData.title;
+      imageURL     = jsonData.imageURL;
+      availability = jsonData.availability;
+      releaseDate  = jsonData.releaseDate;
+      msrpValue    = jsonData.msrpValue;
+      curPrice     = jsonData.curPrice;
+      reviewState  = jsonData.reviewState;
+      addDate      = jsonData.addDate;
+      reviewDate   = jsonData.reviewDate;
+      category     = jsonData.category;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
   
   /**
@@ -62,6 +98,18 @@ public class CoolStuffIncPriceData {
     System.out.println ("Printing contents for Game ID " + getCsiID());
     System.out.println ("============================================================");
     System.out.println ("Game Title:          " + getTitle());
+    switch (getCategory()) {
+      case COLLECTIBLE : System.out.println ("Category:            Collectible Card Games"); break;
+      case DICEMASTERS : System.out.println ("Category:            Dice Masters"); break;
+      case BOARDGAMES  : System.out.println ("Category:            Board Games"); break;
+      case RPGS        : System.out.println ("Category:            Role Playing Games"); break;
+      case LCGS        : System.out.println ("Category:            Living Card Games"); break;
+      case SUPPLIES    : System.out.println ("Category:            Supplies"); break;
+      case MINIATURES  : System.out.println ("Category:            Miniatures"); break;
+      case VIDEOGAMES  : System.out.println ("Category:            Video Games"); break;
+      case UNKNOWN     : System.out.println ("Category:            Unknown"); break;
+      default          : System.out.println ("Category:            [-]"); break;
+    }
     System.out.println ("Game Image:          " + getImageURL());
     System.out.println ("SKU:                 " + getSku());
     switch (getAvailability()) {
@@ -81,6 +129,7 @@ public class CoolStuffIncPriceData {
       switch (reviewState) {
         case PENDING  : System.out.println ("Review State:        Pending");  break;
         case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
+        case REJECTED : System.out.println ("Review State:        Rejected"); break;
       }
     }
     if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 
@@ -244,5 +293,19 @@ public class CoolStuffIncPriceData {
    */
   public void setReviewDate(Date reviewDate) {
     this.reviewDate = reviewDate;
+  }
+
+  /**
+   * @return the category
+   */
+  public CoolStuffIncCategory getCategory() {
+    return category;
+  }
+
+  /**
+   * @param category the category to set
+   */
+  public void setCategory(CoolStuffIncCategory category) {
+    this.category = category;
   }
 }

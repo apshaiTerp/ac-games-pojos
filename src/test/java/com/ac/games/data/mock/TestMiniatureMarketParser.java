@@ -175,4 +175,165 @@ public class TestMiniatureMarketParser extends TestCase {
     
     assertTrue("The world didn't end during this test", true);
   }
+
+  @Test
+  public void testMMAccessoriesParser() {
+    System.out.println ("Launching Test testMMAccessoriesParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_ACCESSORIES);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Dek Prot Small Card Sleeves Ivy Green 50...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMBoardGamesParser() {
+    System.out.println ("Launching Test testMMBoardGamesParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_BOARDGAMES);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing 1st and Goal...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMCCGsParser() {
+    System.out.println ("Launching Test testMMCCGsParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_CCGS);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Ultra Pro Side Loading Deck Box Magic the Gathering...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMCollectibleMinisParser() {
+    System.out.println ("Launching Test testMMCollectibleMinisParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_COLLECTIBLEMINIS);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Marvel Heroclix Avengers Movie Marquee Figure Thor Clearance...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMRPGsParser() {
+    System.out.println ("Launching Test testMMRPGsParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_RPGS);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Pathfinder RPG Module - Daughters of Fury...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMTableTopMinisParser() {
+    System.out.println ("Launching Test testMMTableTopMinisParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_TABLETOPMINIS);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Alkemy - Kingdom of Avalon Starter Box...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
+
+  @Test
+  public void testMMUnknownParser() {
+    System.out.println ("Launching Test testMMUnknownParser()!");
+
+    String htmlContent = MockGameData.generateContentString(MockGameData.MM_UNKNOWN);
+    
+    System.out.println ("------------------------------------------------------");
+    //System.out.println (htmlContent);
+    System.out.println ("Processing Funko POP Star Wars...");
+    System.out.println ("------------------------------------------------------");
+    
+    MiniatureMarketPriceData data = new MiniatureMarketPriceData();
+    try {
+      data = MiniatureMarketParser.parseMMHTML(htmlContent);
+      data.printContentsForDebug();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      fail("Should not throw errors: " + t.getMessage());
+    }
+    
+    assertTrue("The world didn't end during this test", true);
+  }
 }

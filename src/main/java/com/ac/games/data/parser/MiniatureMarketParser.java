@@ -57,6 +57,19 @@ public class MiniatureMarketParser {
   public final static String ALT_ID_MARKER       = "Product.OptionsPrice({\"productId\":\"";
   /** Alternate marker for the Price value. */
   private final static String ALT_PRICE_MARKER   = "meta property=\"product:price:amount\" content=\"";
+  
+  /** Category Tag that indicates Board Games */
+  public final static String BOARD_GAMES_MARKER  = " - Board Games\">";
+  /** Category Tag that indicates Board Games */
+  public final static String TABLE_TOP_MARKER    = " - Table Top Miniatures\">";
+  /** Category Tag that indicates Board Games */
+  public final static String CCG_MARKER          = " - Collectible Card Games\">";
+  /** Category Tag that indicates Board Games */
+  public final static String COLLECTIBLES_MARKER = " - Collectible Miniatures\">";
+  /** Category Tag that indicates Board Games */
+  public final static String RPG_MARKER          = " - Role Playing Games\">";
+  /** Category Tag that indicates Board Games */
+  public final static String ACCESSORIES_MARKER  = " - Accessories\">";
 
   public static MiniatureMarketPriceData parseMMHTML(String htmlContent) throws Throwable {
     Date startDate = null;
@@ -64,6 +77,9 @@ public class MiniatureMarketParser {
       startDate = new Date();
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
+    
+    if (htmlContent == null)
+      throw new GameNotFoundException("No game data was provided, htmlContent was null");
     
     int notFound404Marker = htmlContent.indexOf("<title>404 Not Found");
     if (notFound404Marker != -1)
@@ -102,6 +118,21 @@ public class MiniatureMarketParser {
         data.setMmID(Long.parseLong(idValue));
       } else throw new Throwable ("Could not find the ID value correctly.");
     }
+    
+    int boardgamesMarker   = htmlContent.indexOf(BOARD_GAMES_MARKER);
+    int tableTopMarker     = htmlContent.indexOf(TABLE_TOP_MARKER);
+    int ccgsMarker         = htmlContent.indexOf(CCG_MARKER);
+    int collectiblesMarker = htmlContent.indexOf(COLLECTIBLES_MARKER);
+    int rpgsMarker         = htmlContent.indexOf(RPG_MARKER);
+    int accessoriesMarker  = htmlContent.indexOf(ACCESSORIES_MARKER);
+    
+    if (boardgamesMarker != -1)        data.setCategory(MiniatureMarketCategory.BOARDGAMES); 
+    else if (tableTopMarker != -1)     data.setCategory(MiniatureMarketCategory.TABLETOP);
+    else if (ccgsMarker != -1)         data.setCategory(MiniatureMarketCategory.CCGS);
+    else if (collectiblesMarker != -1) data.setCategory(MiniatureMarketCategory.COLLECTIBLES);
+    else if (rpgsMarker != -1)         data.setCategory(MiniatureMarketCategory.RPGS);
+    else if (accessoriesMarker != -1)  data.setCategory(MiniatureMarketCategory.ACCESSORIES);
+    else                               data.setCategory(MiniatureMarketCategory.UNKNOWN);
     
     //Get the Availability status
     int inStockMarker    = htmlContent.indexOf(IN_STOCK_MARKER);

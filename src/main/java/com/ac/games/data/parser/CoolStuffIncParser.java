@@ -3,6 +3,7 @@ package com.ac.games.data.parser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.ac.games.data.CoolStuffIncCategory;
 import com.ac.games.data.CoolStuffIncPriceData;
 import com.ac.games.data.GameAvailability;
 import com.ac.games.exception.GameNotFoundException;
@@ -45,6 +46,24 @@ public class CoolStuffIncParser {
    */
   public final static String EXPECTED_MARKER     = "expected release: ";
   
+  //Adding the markers for the various categories
+  /** Simple Text Marker for the CCG Category */
+  public final static String CCG_MARKER          = "| Collectable Card Games,";
+  /** Simple Text Marker for the Dice Masters Category (A subcategory of CCGs) */ 
+  public final static String DICE_MASTERS_MARKER = "| Dice Masters |";
+  /** Simple Text Marker for the Board Games Category */ 
+  public final static String BOARD_GAMES_MARKER  = "| Board Games |";
+  /** Simple Text Marker for the Role Playing Games Category */ 
+  public final static String RPG_MARKER          = "| Role Playing Games |";
+  /** Simple Text Marker for the Living Card Games Category */ 
+  public final static String LCG_MARKER          = "| Living Card Games |";
+  /** Simple Text Marker for the Supplies Category */ 
+  public final static String SUPPLIES_MARKER     = "| Supplies |";
+  /** Simple Text Marker for the Miniatures Category */ 
+  public final static String MINIATURES_MARKER   = "| Miniatures, ";
+  /** Simple Text Marker for the Miniatures Category */ 
+  public final static String VIDEOGAMES_MARKER   = "| Video Games |";
+  
   /**
    * This is a static method used to parse out {@link CoolStuffIncPriceData} content from 
    * the provided HTML page.  This method should generate a complete object or fail.
@@ -60,6 +79,9 @@ public class CoolStuffIncParser {
       startDate = new Date();
       System.out.println ("Starting Parse at " + dateFormatter.format(startDate));
     }
+    
+    if (htmlContent == null)
+      throw new GameNotFoundException("No game data was provided, htmlContent was null");
     
     //Check for the "Product not found." text that let's us know we didn't find what we
     //were looking for
@@ -79,6 +101,9 @@ public class CoolStuffIncParser {
     if ((notFoundTag != -1) && (title.startsWith("CoolStuffInc.com")))
       throw new GameNotFoundException("This game does have an entry at CoolStuffInc.com.");
     
+    if (title.startsWith("Gift Certificate"))
+      throw new GameNotFoundException("This game is not actually a game, it's a gift certificate form.");
+    
     int skuMarkerPos = htmlContent.indexOf(SKU_MARKER);
     if (skuMarkerPos != -1) {
       String sku = htmlContent.substring(skuMarkerPos + SKU_MARKER.length(), 
@@ -88,6 +113,28 @@ public class CoolStuffIncParser {
       data.setSku(null);
       //throw new Throwable ("Could not find the SKU item correctly.");
     }
+    
+    //Now let's look for the multiple possible categories
+    int ccgMarkerPos         = htmlContent.indexOf(CCG_MARKER);
+    int diceMastersMarkerPos = htmlContent.indexOf(DICE_MASTERS_MARKER);
+    int boardGameMarkerPos   = htmlContent.indexOf(BOARD_GAMES_MARKER);
+    int rpgMarkerPos         = htmlContent.indexOf(RPG_MARKER);
+    int lcgMarkerPos         = htmlContent.indexOf(LCG_MARKER);
+    int suppliesMarkerPos    = htmlContent.indexOf(SUPPLIES_MARKER);
+    int miniaturesMarkerPos  = htmlContent.indexOf(MINIATURES_MARKER);
+    int videoGamesMarkerPos  = htmlContent.indexOf(VIDEOGAMES_MARKER);
+    
+    if (ccgMarkerPos != -1) {
+      if (diceMastersMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.DICEMASTERS);
+      else                              data.setCategory(CoolStuffIncCategory.COLLECTIBLE);
+    } 
+    else if (boardGameMarkerPos != -1)  data.setCategory(CoolStuffIncCategory.BOARDGAMES);
+    else if (rpgMarkerPos != -1)        data.setCategory(CoolStuffIncCategory.RPGS);
+    else if (lcgMarkerPos != -1)        data.setCategory(CoolStuffIncCategory.LCGS);
+    else if (suppliesMarkerPos != -1)   data.setCategory(CoolStuffIncCategory.SUPPLIES);
+    else if (miniaturesMarkerPos != -1) data.setCategory(CoolStuffIncCategory.MINIATURES);
+    else if (videoGamesMarkerPos != -1) data.setCategory(CoolStuffIncCategory.VIDEOGAMES);
+    else                                data.setCategory(CoolStuffIncCategory.UNKNOWN);
     
     int imageMarkerPos = htmlContent.indexOf(IMAGE_MARKER);
     if (imageMarkerPos != -1) {
@@ -107,7 +154,10 @@ public class CoolStuffIncParser {
       if (expectedPos != -1) data.setAvailability(GameAvailability.NOTYETTAKINGORDERS);
       else                   data.setAvailability(GameAvailability.OUTOFSTOCK);
     }
-    else throw new Throwable ("Could not find the Availability tag correctly.");
+    else {
+      System.out.println ("  Not able to find an availability.  Setting it to Out Of Stock");
+      data.setAvailability(GameAvailability.OUTOFSTOCK);
+    }
 
     //Gather the expected release date, if any
     if (expectedPos != -1) {

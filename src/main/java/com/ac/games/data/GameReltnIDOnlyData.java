@@ -8,31 +8,28 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * This class is just a container for the bggID to help with Serialization.
- * 
  * @author ac010168
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BGGIDOnlyData {
+public class GameReltnIDOnlyData {
 
-  /** The objectid for this game on bgg */
-  private long bggID;
+  private long reltnID;
   
-  public BGGIDOnlyData() {
-    bggID = -1;
+  public GameReltnIDOnlyData() {
+    reltnID = -1;
   }
   
-  public BGGIDOnlyData(long bggID) {
-    this.bggID = bggID;
+  public GameReltnIDOnlyData(long reltnID) {
+    this.reltnID = reltnID;
   }
 
-  public BGGIDOnlyData(String jsonString) {
+  public GameReltnIDOnlyData(String jsonString) {
     super();
     ObjectMapper mapper = new ObjectMapper();
     try {
-      BGGIDOnlyData jsonData = mapper.readValue(jsonString, BGGIDOnlyData.class);
-      bggID = jsonData.bggID;
+      GameReltnIDOnlyData jsonData = mapper.readValue(jsonString, GameReltnIDOnlyData.class);
+      reltnID = jsonData.reltnID;
     } catch (JsonParseException jpe) {
       jpe.printStackTrace();
     } catch (JsonMappingException jme) {
@@ -41,18 +38,18 @@ public class BGGIDOnlyData {
       ioe.printStackTrace();
     }
   }
-
+  
   /**
-   * @return the bggID
+   * @return the reltnID
    */
-  public long getBggID() {
-    return bggID;
+  public long getReltnID() {
+    return reltnID;
   }
 
   /**
-   * @param bggID the bggID to set
+   * @param reltnID the reltnID to set
    */
-  public void setBggID(long bggID) {
-    this.bggID = bggID;
+  public void setReltnID(long reltnID) {
+    this.reltnID = reltnID;
   }
 }

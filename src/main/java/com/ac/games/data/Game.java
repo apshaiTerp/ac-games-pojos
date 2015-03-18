@@ -10,13 +10,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * This is a POJO representing the basic information read from the BoardGameGeek XML API.
- * 
  * @author ac010168
+ *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BGGGame {
-  
+public class Game {
+
+  /** The gameID assigned at creation */
+  private long gameID;
   /** The objectid for this game on bgg */
   private long bggID;
   /** The game name indicated with the primary attribute on bgg */
@@ -37,12 +38,10 @@ public class BGGGame {
   private String imageThumbnailURL;
   /** The game description text from bgg */
   private String description;
-  
-  /** The game ranking from bgg.  This will change from time to time */
-  private double bggRating;
-  /** The number of users who contributed to the rankings on bgg.  This will also change from time to time */
-  private int bggRatingUsers;
-  
+
+  /** Since many games list international publishers, we want to list out the 'true' */
+  private String primaryPublisher;
+
   /** 
    * The is the list of publisher companies associated with the release of this game on bgg.
    * This list also includes overseas publishers and distributers.
@@ -65,10 +64,7 @@ public class BGGGame {
    * than defining.
    */
   private List<String> mechanisms;
-  
-  //**********  The following values are only situationally defined  **********
-  /** This is only defined for BASE (or COLLECTIBLE) games. */
-  private int bggRank;
+
   /** 
    * This is only defined for BASE games.  This will be a list of expansion titles
    * that references the objectIDs of those expansion games. 
@@ -85,24 +81,11 @@ public class BGGGame {
   /** Helps identify which type of game this is. */
   private GameType gameType;
 
-  //**********  These are fields to help with the data review  **********
-  /** Flag to help us know the review state of this object */
-  private ReviewState reviewState;
   /** Date this record was added to the system */
   private Date addDate;
-  /** Date this record was reviewed */
-  private Date reviewDate;
-  
-  /**
-   * Some games can have a ranking, but haven't been ranked yet (not yet released titles).
-   * This is to help us identify that category.
-   */
-  public final static int NOT_RANKED_RANKING = -999;
-  
-  /**
-   * Basic Constructor.  Default all values to nulls or -1.
-   */
-  public BGGGame() {
+
+  public Game() {
+    gameID            = -1L;
     bggID             = -1L;
     name              = null;
     yearPublished     = -1;
@@ -114,56 +97,47 @@ public class BGGGame {
     imageThumbnailURL = null;
     description       = null;
     
-    bggRating         = -1.0;
-    bggRatingUsers    = -1;
-    
+    primaryPublisher  = null;
     publishers        = null;
     designers         = null;
     categories        = null;
     mechanisms        = null;
-    
-    bggRank           = -1;
+
     expansionIDs      = null;
     parentGameID      = -1;
     gameType          = null;
     
-    reviewState       = null;
     addDate           = null;
-    reviewDate        = null;
   }
   
-  public BGGGame(String jsonString) {
+  public Game(String jsonString) {
     super();
     ObjectMapper mapper = new ObjectMapper();
     try {
-      BGGGame game = mapper.readValue(jsonString, BGGGame.class);
-      bggID             = game.bggID;
-      name              = game.name;
-      yearPublished     = game.yearPublished;
-      minPlayers        = game.minPlayers;
-      maxPlayers        = game.minPlayers;
-      minPlayingTime    = game.minPlayingTime;
-      maxPlayingTime    = game.maxPlayingTime;
-      imageURL          = game.imageURL;
-      imageThumbnailURL = game.imageThumbnailURL;
-      description       = game.description;
+      Game jsonData = mapper.readValue(jsonString, Game.class);
+      gameID            = jsonData.gameID;
+      bggID             = jsonData.bggID;
+      name              = jsonData.name;
+      yearPublished     = jsonData.yearPublished;
+      minPlayers        = jsonData.minPlayers;
+      maxPlayers        = jsonData.maxPlayers;
+      minPlayingTime    = jsonData.minPlayingTime;
+      maxPlayingTime    = jsonData.maxPlayingTime;
+      imageURL          = jsonData.imageURL;
+      imageThumbnailURL = jsonData.imageThumbnailURL;
+      description       = jsonData.description;
       
-      bggRating         = game.bggRating;
-      bggRatingUsers    = game.bggRatingUsers;
+      primaryPublisher  = jsonData.primaryPublisher;
+      publishers        = jsonData.publishers;
+      designers         = jsonData.designers;
+      categories        = jsonData.categories;
+      mechanisms        = jsonData.categories;
+
+      expansionIDs      = jsonData.expansionIDs;
+      parentGameID      = jsonData.parentGameID;
+      gameType          = jsonData.gameType;
       
-      publishers        = game.publishers;
-      designers         = game.designers;
-      categories        = game.categories;
-      mechanisms        = game.mechanisms;
-      
-      bggRank           = game.bggRank;
-      expansionIDs      = game.expansionIDs;
-      parentGameID      = game.parentGameID;
-      gameType          = game.gameType;
-      
-      reviewState       = game.reviewState;
-      addDate           = game.addDate;
-      reviewDate        = game.reviewDate;
+      addDate           = jsonData.addDate;
     } catch (JsonParseException jpe) {
       jpe.printStackTrace();
     } catch (JsonMappingException jme) {
@@ -172,13 +146,14 @@ public class BGGGame {
       ioe.printStackTrace();
     }
   }
-  
+
   /**
    * Debug Helper to dump out the contents of this object
    */
   public void printContentsForDebug() {
-    System.out.println ("Printing contents for Game ID " + getBggID());
+    System.out.println ("Printing contents for Game ID " + getGameID());
     System.out.println ("============================================================");
+    System.out.println ("BoardGameGeek ID:    " + getBggID());
     System.out.println ("Name:                " + getName());
     System.out.println ("Year Published:      " + getYearPublished());
     System.out.println ("Players:             " + getMinPlayers() + " - " + getMaxPlayers());
@@ -186,8 +161,8 @@ public class BGGGame {
     System.out.println ("Image URL:           " + getImageURL());
     System.out.println ("Image Thumbnail URL: " + getImageThumbnailURL());
     System.out.println ("Description:         " + getDescription());
-    System.out.println ("BGG Rating:          " + getBggRating() + " (Rated by " + getBggRatingUsers() + ")");
 
+    System.out.println ("Primary Publisher:   " + getPrimaryPublisher());
     if (getPublishers() != null) {
       System.out.println ("Publishers:          [" + publishers.size() + "]");
       for (String publisher : publishers)
@@ -220,7 +195,6 @@ public class BGGGame {
     }
     
     if (getGameType() == GameType.BASE) {
-      System.out.println ("bggRank:             " + ((getBggRank() == NOT_RANKED_RANKING) ? "Not Ranked" : getBggRank()));
       System.out.println ("Parent Game:         N/A");
       if (getExpansionIDs() != null) {
         System.out.println ("Expansions:          [" + expansionIDs.size() + "]");
@@ -228,7 +202,6 @@ public class BGGGame {
           System.out.println ("                     " + expansion);
       } else     System.out.println ("Expansions:          [-]");
     } else if (gameType == GameType.COLLECTIBLE) {
-      System.out.println ("bggRank:             " + ((getBggRank() == NOT_RANKED_RANKING) ? "Not Ranked" : getBggRank()));
       System.out.println ("Parent Game:         N/A");
       if (getExpansionIDs() != null) {
         System.out.println ("Expansions:          [" + expansionIDs.size() + "]");
@@ -236,26 +209,28 @@ public class BGGGame {
           System.out.println ("                     " + expansion);
       } else     System.out.println ("Expansions:          [-]");
     } else if (gameType == GameType.EXPANSION) {
-      System.out.println ("bggRank:             N/A");
       System.out.println ("Parent Game:         " + getParentGameID());
       System.out.println ("Expansions:          N/A");
     }
     
-    if (getReviewState() == null) {
-      System.out.println ("Review State:        [-]");
-    } else {
-      switch (reviewState) {
-        case PENDING  : System.out.println ("Review State:        Pending");  break;
-        case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
-        case REJECTED : System.out.println ("Review State:        Rejected"); break;
-      }
-    }
     if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 
     else                      System.out.println ("Add Date:            [-]"); 
-    if (getReviewDate() != null) System.out.println ("Review Date:         " + reviewDate); 
-    else                         System.out.println ("Review Date:         [-]"); 
   }
-  
+
+  /**
+   * @return the gameID
+   */
+  public long getGameID() {
+    return gameID;
+  }
+
+  /**
+   * @param gameID the gameID to set
+   */
+  public void setGameID(long gameID) {
+    this.gameID = gameID;
+  }
+
   /**
    * @return the bggID
    */
@@ -390,45 +365,24 @@ public class BGGGame {
   }
 
   /**
-   * We've added to this method to strip out line break characters and other HTML-encoded values.
-   * We may need to add more as elements get discovered.
-   * 
    * @param description the description to set
    */
   public void setDescription(String description) {
-    if (description == null)
-      this.description = description;
-    else {
-      this.description = description.replaceAll("<br/>", "\n").replaceAll("&mdash;", "-").trim();
-    }
+    this.description = description;
   }
 
   /**
-   * @return the bggRating
+   * @return the primaryPublisher
    */
-  public double getBggRating() {
-    return bggRating;
+  public String getPrimaryPublisher() {
+    return primaryPublisher;
   }
 
   /**
-   * @param bggRating the bggRating to set
+   * @param primaryPublisher the primaryPublisher to set
    */
-  public void setBggRating(double bggRating) {
-    this.bggRating = bggRating;
-  }
-
-  /**
-   * @return the bggRatingUsers
-   */
-  public int getBggRatingUsers() {
-    return bggRatingUsers;
-  }
-
-  /**
-   * @param bggRatingUsers the bggRatingUsers to set
-   */
-  public void setBggRatingUsers(int bggRatingUsers) {
-    this.bggRatingUsers = bggRatingUsers;
+  public void setPrimaryPublisher(String primaryPublisher) {
+    this.primaryPublisher = primaryPublisher;
   }
 
   /**
@@ -488,20 +442,6 @@ public class BGGGame {
   }
 
   /**
-   * @return the bggRank
-   */
-  public int getBggRank() {
-    return bggRank;
-  }
-
-  /**
-   * @param bggRank the bggRank to set
-   */
-  public void setBggRank(int bggRank) {
-    this.bggRank = bggRank;
-  }
-
-  /**
    * @return the expansionIDs
    */
   public List<Long> getExpansionIDs() {
@@ -544,20 +484,6 @@ public class BGGGame {
   }
 
   /**
-   * @return the reviewState
-   */
-  public ReviewState getReviewState() {
-    return reviewState;
-  }
-
-  /**
-   * @param reviewState the reviewState to set
-   */
-  public void setReviewState(ReviewState reviewState) {
-    this.reviewState = reviewState;
-  }
-
-  /**
    * @return the addDate
    */
   public Date getAddDate() {
@@ -571,17 +497,4 @@ public class BGGGame {
     this.addDate = addDate;
   }
 
-  /**
-   * @return the reviewDate
-   */
-  public Date getReviewDate() {
-    return reviewDate;
-  }
-
-  /**
-   * @param reviewDate the reviewDate to set
-   */
-  public void setReviewDate(Date reviewDate) {
-    this.reviewDate = reviewDate;
-  }
 }

@@ -1,12 +1,19 @@
 package com.ac.games.data;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ac010168
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MiniatureMarketPriceData {
 
   /** Miniature Market Game ID */
@@ -24,6 +31,8 @@ public class MiniatureMarketPriceData {
   private double msrpValue;
   /** The current price listed on MM.  Cannot be found the game is not available */
   private double curPrice;
+  /** Adding category requirements */
+  private MiniatureMarketCategory category;
   
   //**********  These are fields to help with the data review  **********
   /** Flag to help us know the review state of this object */
@@ -37,7 +46,7 @@ public class MiniatureMarketPriceData {
   public final static DecimalFormat moneyFormat = new DecimalFormat("$###,###.##");
   
   public MiniatureMarketPriceData() {
-    mmID = -1L;
+    mmID         = -1L;
     sku          = null;
     title        = null;
     imageURL     = null;
@@ -47,6 +56,32 @@ public class MiniatureMarketPriceData {
     reviewState  = null;
     addDate      = null;
     reviewDate   = null;
+    category     = null;
+  }
+  
+  public MiniatureMarketPriceData(String jsonString) {
+    super();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      MiniatureMarketPriceData jsonData = mapper.readValue(jsonString, MiniatureMarketPriceData.class);
+      mmID         = jsonData.mmID;
+      sku          = jsonData.sku;
+      title        = jsonData.title;
+      imageURL     = jsonData.imageURL;
+      availability = jsonData.availability;
+      msrpValue    = jsonData.msrpValue;
+      curPrice     = jsonData.curPrice;
+      reviewState  = jsonData.reviewState;
+      addDate      = jsonData.addDate;
+      reviewDate   = jsonData.reviewDate;
+      category     = jsonData.category;
+    } catch (JsonParseException jpe) {
+      jpe.printStackTrace();
+    } catch (JsonMappingException jme) {
+      jme.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+    }
   }
   
   /**
@@ -56,6 +91,16 @@ public class MiniatureMarketPriceData {
     System.out.println ("Printing contents for Game ID " + getMmID());
     System.out.println ("============================================================");
     System.out.println ("Game Title:          " + getTitle());
+    switch (getCategory()) {
+      case BOARDGAMES   : System.out.println ("Category:            Board Games"); break;
+      case TABLETOP     : System.out.println ("Category:            Table Top Miniatures"); break;
+      case CCGS         : System.out.println ("Category:            Collectible Card Games"); break;
+      case COLLECTIBLES : System.out.println ("Category:            Collectible Miniatures"); break;
+      case RPGS         : System.out.println ("Category:            Role Playing Games"); break;
+      case ACCESSORIES  : System.out.println ("Category:            Accessories"); break;
+      case UNKNOWN      : System.out.println ("Category:            Unknown"); break;
+      default           : System.out.println ("Category:            [-]"); break;
+    }
     System.out.println ("Game Image:          " + getImageURL());
     System.out.println ("SKU:                 " + getSku());
     switch (getAvailability()) {
@@ -74,6 +119,7 @@ public class MiniatureMarketPriceData {
       switch (reviewState) {
         case PENDING  : System.out.println ("Review State:        Pending");  break;
         case REVIEWED : System.out.println ("Review State:        Reviewed"); break;
+        case REJECTED : System.out.println ("Review State:        Rejected"); break;
       }
     }
     if (getAddDate() != null) System.out.println ("Add Date:            " + addDate); 
@@ -220,6 +266,20 @@ public class MiniatureMarketPriceData {
    */
   public void setReviewDate(Date reviewDate) {
     this.reviewDate = reviewDate;
+  }
+
+  /**
+   * @return the category
+   */
+  public MiniatureMarketCategory getCategory() {
+    return category;
+  }
+
+  /**
+   * @param category the category to set
+   */
+  public void setCategory(MiniatureMarketCategory category) {
+    this.category = category;
   }
 
   /**
