@@ -16,6 +16,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MiniatureMarketPriceData {
 
+  /** Category type header value for Board Games */
+  public final static String BOARD_GAMES_CATEGORY       = "/board-games/";
+  /** Category type header value for Board Games */
+  public final static String LCGS_CATEGORY              = "/board-games/lcgs/";
+  /** Category type header value for Board Games */
+  public final static String TABLE_TOP_MINIS_CATEGORY   = "/table-top-miniatures/";
+  /** Category type header value for Board Games */
+  public final static String COLLECTIBLE_MINIS_CATEGORY = "/collectible-miniatures/";
+  /** Category type header value for Board Games */
+  public final static String CCGS_CATEGORY              = "/collectible-card-games/";
+  /** Category type header value for Board Games */
+  public final static String RPGS_CATEGORY              = "/role-playing-games/";
+  /** Category type header value for Board Games */
+  public final static String SUPPLIES_CATEGORY          = "/collectible-card-games/supplies/";
+  /** Category type header value for Board Games */
+  public final static String ACCESSORIES_CATEGORY       = "/accessories/";
+  
   /** Miniature Market Game ID */
   private long mmID;
   /** The SKU used to look up the product.  Used by other vendors as well */
@@ -33,6 +50,8 @@ public class MiniatureMarketPriceData {
   private double curPrice;
   /** Adding category requirements */
   private MiniatureMarketCategory category;
+  /** Adding manufacturer for ease in mapping */
+  private String manufacturer;
   
   //**********  These are fields to help with the data review  **********
   /** Flag to help us know the review state of this object */
@@ -57,6 +76,7 @@ public class MiniatureMarketPriceData {
     addDate      = null;
     reviewDate   = null;
     category     = null;
+    manufacturer = null;
   }
   
   public MiniatureMarketPriceData(String jsonString) {
@@ -75,6 +95,7 @@ public class MiniatureMarketPriceData {
       addDate      = jsonData.addDate;
       reviewDate   = jsonData.reviewDate;
       category     = jsonData.category;
+      manufacturer = jsonData.manufacturer;
     } catch (JsonParseException jpe) {
       jpe.printStackTrace();
     } catch (JsonMappingException jme) {
@@ -95,6 +116,7 @@ public class MiniatureMarketPriceData {
       case BOARDGAMES   : System.out.println ("Category:            Board Games"); break;
       case TABLETOP     : System.out.println ("Category:            Table Top Miniatures"); break;
       case CCGS         : System.out.println ("Category:            Collectible Card Games"); break;
+      case LCGS         : System.out.println ("Category:            Living Card Games"); break;
       case COLLECTIBLES : System.out.println ("Category:            Collectible Miniatures"); break;
       case RPGS         : System.out.println ("Category:            Role Playing Games"); break;
       case ACCESSORIES  : System.out.println ("Category:            Accessories"); break;
@@ -103,6 +125,7 @@ public class MiniatureMarketPriceData {
     }
     System.out.println ("Game Image:          " + getImageURL());
     System.out.println ("SKU:                 " + getSku());
+    System.out.println ("Manufacturer:        " + getManufacturer());
     switch (getAvailability()) {
       case INSTOCK            : System.out.println ("Availability:        In Stock"); break;
       case PREORDER           : System.out.println ("Availability:        Pre-Order"); break;
@@ -280,6 +303,20 @@ public class MiniatureMarketPriceData {
    */
   public void setCategory(MiniatureMarketCategory category) {
     this.category = category;
+  }
+
+  /**
+   * @return the manufacturer
+   */
+  public String getManufacturer() {
+    return manufacturer;
+  }
+
+  /**
+   * @param manufacturer the manufacturer to set
+   */
+  public void setManufacturer(String manufacturer) {
+    this.manufacturer = manufacturer;
   }
 
   /**
