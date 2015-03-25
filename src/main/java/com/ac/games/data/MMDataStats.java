@@ -20,6 +20,7 @@ public class MMDataStats {
   private int ccgCount;
   private int collectiblesCount;
   private int rpgCount;
+  private int lcgCount;
   private int accessoriesCount;
   private int unknownCount;
   
@@ -31,6 +32,7 @@ public class MMDataStats {
     boardGameCount    = 0;
     tableTopCount     = 0;
     ccgCount          = 0;
+    lcgCount          = 0;
     collectiblesCount = 0;
     rpgCount          = 0;
     accessoriesCount  = 0;
@@ -48,6 +50,7 @@ public class MMDataStats {
       boardGameCount    = jsonData.boardGameCount;
       tableTopCount     = jsonData.tableTopCount;
       ccgCount          = jsonData.ccgCount;
+      lcgCount          = jsonData.lcgCount;
       collectiblesCount = jsonData.collectiblesCount;
       rpgCount          = jsonData.rpgCount;
       accessoriesCount  = jsonData.accessoriesCount;
@@ -202,5 +205,19 @@ public class MMDataStats {
    */
   public void setPendingCount(int pendingCount) {
     this.pendingCount = pendingCount;
+  }
+
+  /**
+   * @return the lcgCount
+   */
+  public int getLcgCount() {
+    return lcgCount;
+  }
+
+  /**
+   * @param lcgCount the lcgCount to set
+   */
+  public void setLcgCount(int lcgCount) {
+    this.lcgCount = lcgCount;
   }
 }
