@@ -35,6 +35,8 @@ public class CoolStuffIncPriceData {
   private double curPrice;
   /** The upcoming release date, listed with PreOrders and some Out of Print products */
   private String releaseDate;
+  /** The publisher information, to help with sorting games */
+  private String publisher;
   
   //TODO - Probably need to figure out the category so I can weed out the HORDES of CCGs
   //and other single items CSI sells
@@ -63,6 +65,7 @@ public class CoolStuffIncPriceData {
     addDate      = null;
     reviewDate   = null;
     category     = null;
+    publisher    = null;
   }
   
   public CoolStuffIncPriceData(String jsonString) {
@@ -82,6 +85,7 @@ public class CoolStuffIncPriceData {
       addDate      = jsonData.addDate;
       reviewDate   = jsonData.reviewDate;
       category     = jsonData.category;
+      publisher    = jsonData.publisher;
     } catch (JsonParseException jpe) {
       jpe.printStackTrace();
     } catch (JsonMappingException jme) {
@@ -98,6 +102,7 @@ public class CoolStuffIncPriceData {
     System.out.println ("Printing contents for Game ID " + getCsiID());
     System.out.println ("============================================================");
     System.out.println ("Game Title:          " + getTitle());
+    System.out.println ("Publisher:           " + ((getPublisher() == null) ? "[-]" : publisher));
     switch (getCategory()) {
       case COLLECTIBLE : System.out.println ("Category:            Collectible Card Games"); break;
       case DICEMASTERS : System.out.println ("Category:            Dice Masters"); break;
@@ -307,5 +312,19 @@ public class CoolStuffIncPriceData {
    */
   public void setCategory(CoolStuffIncCategory category) {
     this.category = category;
+  }
+
+  /**
+   * @return the publisher
+   */
+  public String getPublisher() {
+    return publisher;
+  }
+
+  /**
+   * @param publisher the publisher to set
+   */
+  public void setPublisher(String publisher) {
+    this.publisher = publisher;
   }
 }

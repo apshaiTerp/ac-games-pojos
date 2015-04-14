@@ -64,6 +64,9 @@ public class CoolStuffIncParser {
   /** Simple Text Marker for the Miniatures Category */ 
   public final static String VIDEOGAMES_MARKER   = "| Video Games |";
   
+  /** Marker for the Publisher, which should be contained in the meta keywords block */
+  public final static String PUBLISHER_MARKER    = "Publisher: ";
+  
   /**
    * This is a static method used to parse out {@link CoolStuffIncPriceData} content from 
    * the provided HTML page.  This method should generate a complete object or fail.
@@ -181,6 +184,13 @@ public class CoolStuffIncParser {
       data.setCurPrice(priceValue);
     }
     
+    int publisherPos  = htmlContent.indexOf(PUBLISHER_MARKER);
+    if (publisherPos != -1) {
+      String publisherValue = htmlContent.substring(publisherPos + PUBLISHER_MARKER.length(), 
+          htmlContent.indexOf(",", publisherPos + PUBLISHER_MARKER.length()));
+      data.setPublisher(publisherValue);
+    }
+
     return data;
   }
 }

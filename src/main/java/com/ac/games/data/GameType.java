@@ -5,5 +5,5 @@ package com.ac.games.data;
  *
  */
 public enum GameType {
-  BASE, EXPANSION, COLLECTIBLE
+  BASE, EXPANSION, COLLECTIBLE, BASE_AND_COLLECTIBLE
 }
