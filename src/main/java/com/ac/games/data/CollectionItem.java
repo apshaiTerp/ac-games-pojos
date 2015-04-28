@@ -1,6 +1,7 @@
 package com.ac.games.data;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CollectionItem {
+public class CollectionItem implements Comparable<CollectionItem> {
   
   /** The itemID for this collection item */
   private long             itemID;
@@ -29,7 +30,18 @@ public class CollectionItem {
   /** The date when this game was acquired */
   private String           whereAcquired;
   
-  //TODO - There will be some fields that can be customized here
+  //Override fields to replace the basic game numbers (increased player count, etc)
+  /** The substitiute value for the minimum player count */
+  private int              overrideMinPlayers;
+  /** The substitiute value for the maximum player count */
+  private int              overrideMaxPlayers;
+  /** The substitiute value for the minimum playing time */
+  private int              overrideMinTime;
+  /** The substitiute value for the maximum playing time */
+  private int              overrideMaxTime;
+  
+  /** Helper list to help render expansions in the collections view */
+  private List<CompactSearchData> expansionList;
   
   public CollectionItem() {
     itemID        = -1;
@@ -38,6 +50,13 @@ public class CollectionItem {
     weights       = null;
     dateAcquired  = null;
     whereAcquired = null;
+    
+    overrideMinPlayers = -1;
+    overrideMaxPlayers = -1;
+    overrideMinTime    = -1;
+    overrideMaxTime    = -1;
+    
+    expansionList      = new ArrayList<CompactSearchData>();
   }
   
   public CollectionItem(String jsonString) {
@@ -142,5 +161,82 @@ public class CollectionItem {
    */
   public void setGame(Game game) {
     this.game = game;
+  }
+
+  /**
+   * We want reverse Sort order, so prioritize it that way.
+   */
+  public int compareTo(CollectionItem o) {
+    return (int)(o.itemID - itemID);
+  }
+
+  /**
+   * @return the overrideMinPlayers
+   */
+  public int getOverrideMinPlayers() {
+    return overrideMinPlayers;
+  }
+
+  /**
+   * @param overrideMinPlayers the overrideMinPlayers to set
+   */
+  public void setOverrideMinPlayers(int overrideMinPlayers) {
+    this.overrideMinPlayers = overrideMinPlayers;
+  }
+
+  /**
+   * @return the overrideMaxPlayers
+   */
+  public int getOverrideMaxPlayers() {
+    return overrideMaxPlayers;
+  }
+
+  /**
+   * @param overrideMaxPlayers the overrideMaxPlayers to set
+   */
+  public void setOverrideMaxPlayers(int overrideMaxPlayers) {
+    this.overrideMaxPlayers = overrideMaxPlayers;
+  }
+
+  /**
+   * @return the overrideMinTime
+   */
+  public int getOverrideMinTime() {
+    return overrideMinTime;
+  }
+
+  /**
+   * @param overrideMinTime the overrideMinTime to set
+   */
+  public void setOverrideMinTime(int overrideMinTime) {
+    this.overrideMinTime = overrideMinTime;
+  }
+
+  /**
+   * @return the overrideMaxTime
+   */
+  public int getOverrideMaxTime() {
+    return overrideMaxTime;
+  }
+
+  /**
+   * @param overrideMaxTime the overrideMaxTime to set
+   */
+  public void setOverrideMaxTime(int overrideMaxTime) {
+    this.overrideMaxTime = overrideMaxTime;
+  }
+
+  /**
+   * @return the expansionList
+   */
+  public List<CompactSearchData> getExpansionList() {
+    return expansionList;
+  }
+
+  /**
+   * @param expansionList the expansionList to set
+   */
+  public void setExpansionList(List<CompactSearchData> expansionList) {
+    this.expansionList = expansionList;
   }
 }
