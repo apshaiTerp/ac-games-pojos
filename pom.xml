@@ -4,7 +4,7 @@
   
   <groupId>com.ac.games</groupId>
   <artifactId>ac-games-pojos</artifactId>
-  <version>0.3.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>POJO library for Collection Management project</name>
@@ -97,7 +97,7 @@
           <detectLinks>true</detectLinks>
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
-          <source>1.6</source>
+          <source>1.7</source>
         </configuration>
         <executions>
           <execution>
@@ -156,7 +156,7 @@
           <detectLinks>true</detectLinks>
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
-          <source>1.6</source>
+          <source>1.7</source>
         </configuration>
       </plugin>
       <plugin>

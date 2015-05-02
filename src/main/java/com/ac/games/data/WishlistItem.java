@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WishlistItem {
+public class WishlistItem implements Comparable<WishlistItem> {
   
   private long    wishID;
   private long    userID;
@@ -116,5 +116,13 @@ public class WishlistItem {
    */
   public void setNotifyUser(boolean notifyUser) {
     this.notifyUser = notifyUser;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  public int compareTo(WishlistItem o) {
+    return (int)(o.wishID - wishID);
   }
 }
